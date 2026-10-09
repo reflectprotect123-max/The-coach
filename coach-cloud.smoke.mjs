@@ -8,7 +8,9 @@ import vm from 'node:vm';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 const root = join(dir, '../..');
-const mig = join(root, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
+const monorepoMig = join(root, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
+const standaloneMig = join(dir, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
+const mig = existsSync(monorepoMig) ? monorepoMig : standaloneMig;
 if (!existsSync(mig)) throw new Error('missing coach publish migration');
 const sql = readFileSync(mig, 'utf8');
 for (const needle of [
