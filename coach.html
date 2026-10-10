@@ -357,6 +357,36 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .roster-table tbody tr:hover{background:rgba(255,255,255,.025)}
 .linkish{background:transparent;border:0;padding:0;color:var(--copper2);font-weight:650;cursor:pointer;text-align:left}
 .linkish:hover{text-decoration:underline;text-underline-offset:3px}
+.surface-titlebar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-4px 0 14px}
+.surface-titlebar h1{font-size:18px}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:50px;padding:8px 10px;border:1px solid var(--line);border-bottom:0;background:#fff}
+.table-toolbar-left,.table-toolbar-right,.table-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.compact-filter{display:flex;align-items:center;gap:7px;min-width:180px;padding:0 10px;border-right:1px solid var(--line)}
+.compact-filter label{margin:0;font-size:9px}
+.compact-filter select{width:auto;min-width:125px;padding:7px 26px 7px 7px;border:0;background:transparent;font-size:12px}
+.table-search{width:190px;padding:8px 10px;font-size:12px}
+.table-icon-btn{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--muted);font-size:16px}
+.table-icon-btn:hover{border-color:var(--line);background:#f7f7f8;color:var(--text)}
+.roster-person{display:flex;align-items:center;gap:9px}
+.roster-avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#26272b;color:#fff;font-size:9px;font-weight:800;flex:0 0 30px}
+.roster-person .linkish{font-size:12px}
+.subline{margin-top:2px;color:var(--muted);font-size:10px}
+.action-glyph{display:inline-grid;place-items:center;width:28px;height:28px;border:0;background:transparent;color:var(--muted);font-size:14px}
+.action-glyph:hover{color:var(--th-blue);background:#eef4ff}
+.tag-link{color:var(--th-blue);font-size:11px;font-weight:600}
+.bulk-actions{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px}
+.bulk-actions button{min-height:30px;padding:6px 9px;font-size:10px}
+.team-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:3px;background:#10101c;color:#fff;font-size:9px;font-weight:800}
+.status-dot{display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:#ef4444;vertical-align:middle}
+.profile-overlay{position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.46)}
+.profile-drawer{position:absolute;inset:0 0 0 auto;width:min(430px,100vw);display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 30px rgba(0,0,0,.2)}
+.profile-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.profile-tabs{display:flex;padding:0 12px;border-bottom:1px solid var(--line)}
+.profile-tabs button{padding:13px 10px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase}
+.profile-tabs button.on{border-bottom-color:var(--th-blue);color:var(--text)}
+.profile-body{flex:1;overflow:auto;padding:14px 16px}
+.profile-ex-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:11px}
+.profile-ex-row b{color:var(--th-blue)}
 .cal-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 16px;flex-wrap:wrap}
 .cal-month{margin-top:8px}
 .cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
@@ -381,6 +411,29 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .cal-chip-title{font-weight:650;line-height:1.25}
 .cal-chip-meta{margin-top:4px;color:var(--dim);font-size:10px}
 .cal-empty-actions{margin-top:6px}
+.calendar-page{margin:-20px -28px -48px;background:#fff;min-height:calc(100vh - 56px)}
+.calendar-hero{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;background:#050505;color:#fff}
+.calendar-owner{display:flex;align-items:center;gap:10px;min-width:0}
+.calendar-owner b{display:block;max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+.calendar-owner span{display:block;margin-top:2px;color:rgba(255,255,255,.64);font-size:10px}
+.calendar-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.calendar-actions .btn{min-height:34px;padding:7px 10px;font-size:11px}
+.calendar-monthbar{display:flex;align-items:center;justify-content:center;gap:14px;padding:11px 20px;border-bottom:1px solid var(--line);background:#fff}
+.calendar-monthbar b{min-width:140px;text-align:center;font-size:14px}
+.calendar-monthbar button{width:30px;height:30px;border:0;background:transparent;color:var(--muted)}
+.calendar-page .cal-month{margin:0;padding:0 10px 18px}
+.calendar-page .cal-dow-row{margin:0 -10px 0;padding:9px 10px;border-bottom:1px solid var(--line)}
+.calendar-page .cal-grid{gap:0}
+.calendar-page .cal-day{min-height:108px;border-width:0 1px 1px 0;border-radius:0}
+.calendar-page .cal-day:nth-child(7n+1){border-left:1px solid var(--line)}
+.calendar-page .cal-pad{background:#f2f2f2;border-color:var(--line)}
+.library-pick-overlay{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.48)}
+.library-pick-drawer{position:absolute;inset:0 0 0 auto;width:min(430px,100vw);display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 30px rgba(0,0,0,.2)}
+.library-pick-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.library-pick-tabs{display:flex;border-bottom:1px solid var(--line);padding:0 14px}
+.library-pick-tabs button{padding:13px 10px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:10px;font-weight:700}
+.library-pick-tabs button.on{border-color:var(--th-blue);color:var(--th-blue)}
+.library-pick-body{padding:14px;overflow:auto}
 .ex-cat-row{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
 .ex-cat-row:last-child{border-bottom:0}
 .feed-card h2{font-family:var(--font-display);font-weight:600}
@@ -409,6 +462,16 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
   .feed-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
   .home-date-popover{position:fixed;left:8px;right:8px;top:64px;width:auto}
   .home-months{grid-template-columns:1fr}
+  .calendar-page{margin:-14px -12px -80px}
+  .calendar-hero{align-items:flex-start;padding:10px 12px}
+  .calendar-actions{justify-content:flex-end}
+  .calendar-actions .btn:not(.primary){display:none}
+  .calendar-page .cal-month{overflow-x:auto}
+  .calendar-page .cal-dow-row,.calendar-page .cal-grid{min-width:760px}
+  .table-toolbar{align-items:stretch;flex-direction:column}
+  .table-toolbar-left,.table-toolbar-right{width:100%}
+  .compact-filter{min-width:0;flex:1}
+  .table-search{flex:1;width:auto}
   .cal-grid,.cal-dow-row{gap:4px}
   .cal-day{min-height:72px;padding:4px}
 }
@@ -438,13 +501,14 @@ const L = window.CoachLoop;
 const N = window.CoachNutrition;
 let S = L.mergeExerciseCatalog(L.loadState());
 const ui = {
-  view:'home', lib:'sessions', athleteId:null, teamId:null, programId:null, templateId:null, sessionId:null,
+  view:'home', lib:'programs', athleteId:null, teamId:null, programId:null, templateId:null, sessionId:null,
   expandAll:false, expanded:{}, err:'', exPicker:null, exSearch:'', exEdit:null,
   cellMenu:null, cellPick:null, progSearch:'',
   calMonth:null, calDay:null, chipMenu:null, libPick:null,
   assignTeamId:null, assignStart:null, nutAthleteId:null,
   exCatalogSearch:'', commentDrawer:null, filterAthlete:'all',
   homeMode:'latest', homeDate:L.today(), homeCalendarOpen:false, homePickerMonth:L.today().slice(0,7),
+  rosterSearch:'', rosterGroup:'all', rosterStatus:'active', rosterSelected:{}, athleteProfileId:null, athleteProfileTab:'exercises',
 };
 
 const $ = (id) => document.getElementById(id);
@@ -561,7 +625,6 @@ function go(view, extra){
   }
   if (view !== 'home') ui.commentDrawer = null;
   if (view === 'assign' && !ui.assignTeamId && S.teams && S.teams[0]) ui.assignTeamId = S.teams[0].id;
-  if ((view === 'athlete' || view === 'team') && !ui.calMonth) ui.calMonth = L.today().slice(0, 7);
   render();
 }
 function openSession(templateId){
@@ -885,7 +948,7 @@ function libraryTabs(){
   return `<div class="lib-tabs" role="tablist">${tabs.map(([k,l]) => {
     const off = k==='circuits' || k==='prescriptions';
     return `<button type="button" role="tab" ${off?'disabled':''} aria-selected="${ui.lib===k?'true':'false'}" class="${ui.lib===k?'on':''}" onclick="${off?'':'ui.lib=\''+k+'\';ui.cellMenu=null;render()'}">${l}</button>`;
-  }).join('')}<button type="button" disabled>More</button></div>`;
+  }).join('')}<button type="button" title="Parent Calendars and Team Subscriptions">More⌄</button></div>`;
 }
 
 function programsListHtml(){
@@ -894,35 +957,29 @@ function programsListHtml(){
   const rows = list.map(p => {
     const weeks = Number(p.weeks)||1;
     return `<tr>
-      <td><button type="button" class="linkish" onclick="openProgram('${p.id}')">${esc(p.name)}</button><div class="muted">${weeks} week${weeks===1?'':'s'}</div></td>
-      <td class="muted">—</td>
-      <td class="muted">hybrid S&C</td>
+      <td><input type="checkbox" aria-label="Select ${esc(p.name)}"></td>
+      <td><div class="roster-person"><span class="team-mark">TH</span><div><button type="button" class="linkish" onclick="openProgram('${p.id}')">${esc(p.name)}</button><div class="subline">${weeks} week${weeks===1?'':'s'}</div></div></div></td>
+      <td class="muted">${esc(p.difficulty||'Intermediate')}</td>
+      <td class="muted">${esc(p.focus||'—')}</td>
+      <td class="muted">${esc(p.description||'—')}</td>
       <td><button type="button" class="linkish" onclick="go('assign',{programId:'${p.id}'})">Assign</button></td>
-      <td><button type="button" class="btn small" onclick="openProgram('${p.id}')">Open grid</button></td>
+      <td class="muted">${esc(S.coach?.name||'Coach')}</td>
+      <td><div class="table-actions"><button class="action-glyph" title="Open grid" onclick="openProgram('${p.id}')">▣</button><button class="action-glyph" title="Assign" onclick="go('assign',{programId:'${p.id}'})">□</button><button class="action-glyph" title="Settings" onclick="openProgram('${p.id}');ui.programSettings=true;render()">⚙</button></div></td>
     </tr>`;
   }).join('');
-  return `<div class="toolbar-row">
-      <div class="field"><label>Search programs</label>
-        <input value="${esc(ui.progSearch)}" oninput="ui.progSearch=this.value;render()" placeholder="Hybrid Strength…"></div>
-      <button type="button" class="btn primary small" onclick="newProgram()">Create program</button>
-    </div>
-    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th>Title</th><th>Difficulty</th><th>Focus</th><th></th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Programs</div><h2>No programs yet</h2><p class="muted">Build a week×day grid, then assign it to a team.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newProgram()">Create program</button></div></div>'}`;
+  return `<div class="table-toolbar"><div class="compact-filter"><select aria-label="Program scope"><option>My Programs</option><option>All Programs</option></select></div><div class="table-toolbar-right"><button class="table-icon-btn" title="Delete selected" disabled>⌫</button><button class="table-icon-btn" title="Duplicate selected">□</button><input class="table-search" aria-label="Search programs" value="${esc(ui.progSearch)}" oninput="ui.progSearch=this.value;render()" placeholder="Search"><button type="button" class="btn primary small" onclick="newProgram()">Create Program</button></div></div>
+    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th><input type="checkbox" aria-label="Select programs"></th><th>Title</th><th>Difficulty</th><th>Focus</th><th>Description</th><th>Team Usage</th><th>Created By</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Programs</div><h2>No programs yet</h2><p class="muted">Build a week×day grid, then assign it to a team.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newProgram()">Create program</button></div></div>'}`;
 }
 
 function libraryHtml(){
   const tabs = libraryTabs();
   if (ui.lib === 'sessions') {
     const rows = (S.templates||[]).map(t => {
-      const n = (t.blocks||[]).length;
-      const kinds = (t.blocks||[]).map(b => b.category || b.type).filter(Boolean).slice(0,2).join(' · ');
-      return `<button type="button" class="template-row" data-template-id="${esc(t.id)}" onclick="openSession('${t.id}')">
-        <div><b>${esc(t.name)}</b><div class="muted">${n} block${n===1?'':'s'}${kinds?' · '+esc(kinds):''}</div></div>
-        <span class="pill">Edit</span></button>`;
+      return `<tr data-template-id="${esc(t.id)}"><td><input type="checkbox" aria-label="Select ${esc(t.name)}"></td><td><button type="button" class="linkish" onclick="openSession('${t.id}')">${esc(t.name)}</button></td><td class="muted">${esc(S.coach?.name||'Coach')}</td><td class="muted">8/10/2026</td><td><button class="action-glyph" aria-label="Delete ${esc(t.name)}" title="Delete">⌫</button></td></tr>`;
     }).join('');
     return `${tabs}
-      <div class="toolbar-row"><p class="lede" style="margin:0;flex:1">Session templates — same block shape the athlete app logs.</p>
-      <button type="button" class="btn primary small" onclick="newTemplate()">New session</button></div>
-      <div class="stack">${rows || '<div class="empty-panel"><div class="eyebrow">Sessions</div><h2>No templates yet</h2><p class="muted">Create a session, then drop it into a program grid.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newTemplate()">New session</button></div></div>'}</div>`;
+      <div class="table-toolbar"><div></div><div class="table-toolbar-right"><button class="table-icon-btn" disabled>⌫</button><input class="table-search" aria-label="Search sessions" placeholder="Search"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>
+      ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th><input type="checkbox" aria-label="Select sessions"></th><th>Title</th><th>Created By</th><th>Date Created</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<div class="empty-panel"><div class="eyebrow">Sessions</div><h2>No templates yet</h2><p class="muted">Create a session, then drop it into a program grid.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>'}`;
   }
   if (ui.lib === 'exercises') {
     return `${tabs}${exercisesCatalogHtml()}`;
@@ -1097,6 +1154,31 @@ function addWeek(){
   persist(); render();
 }
 
+function closeProgramSettings(){ ui.programSettings=false;render(); }
+function setProgramSettingsTab(tab){ ui.programSettingsTab=tab;render(); }
+function saveProgramSettings(){
+  const p=prog(ui.programId);if(!p)return;
+  const name=$('program-settings-name'),weeks=$('program-settings-weeks'),focus=$('program-settings-focus'),difficulty=$('program-settings-difficulty'),description=$('program-settings-description');
+  if(name&&name.value.trim())p.name=name.value.trim();
+  if(weeks){const next=Math.max(1,Math.min(52,Number(weeks.value)||1));while(Number(p.weeks||1)<next)L.addProgramWeek(p);p.weeks=next;}
+  if(focus)p.focus=focus.value;if(difficulty)p.difficulty=difficulty.value;if(description)p.description=description.value;
+  persist();ui.programSettings=false;render();
+}
+function programSettingsHtml(){
+  if(!ui.programSettings)return '';
+  const p=prog(ui.programId);if(!p)return '';
+  const tab=ui.programSettingsTab||'general';
+  const body=tab==='general'?`<div class="field"><label>Name</label><input id="program-settings-name" value="${esc(p.name)}"></div>
+    <div class="field"><label>Program Length (weeks)</label><input id="program-settings-weeks" type="number" min="1" max="52" value="${Number(p.weeks)||1}"></div>
+    <div class="field"><label>Sport/Focus Interest</label><input id="program-settings-focus" value="${esc(p.focus||'')}"></div>
+    <div class="field"><label>Program Difficulty</label><select id="program-settings-difficulty"><option>Beginner</option><option ${(p.difficulty||'Intermediate')==='Intermediate'?'selected':''}>Intermediate</option><option>Advanced</option></select></div>
+    <div class="field"><label>Description</label><textarea id="program-settings-description">${esc(p.description||'')}</textarea></div>
+    <div class="field"><label>Logo Image</label><div class="empty-panel" style="text-align:center">300 × 300</div></div>
+    <button class="btn primary block" style="margin-top:14px" onclick="saveProgramSettings()">Save & Close</button>`
+    :`<div class="empty-panel"><h2>Access Codes</h2><p class="muted">Athletes can enter an access code in the mobile app to join this program.</p><button class="btn primary small" style="margin-top:14px">Create New</button></div>`;
+  return `<div class="profile-overlay" onclick="if(event.target===this)closeProgramSettings()"><aside class="profile-drawer" role="dialog" aria-label="Program settings"><div class="profile-head"><div style="flex:1"><b>${esc(p.name)}</b><div class="subline">Program settings</div></div><button class="btn ghost small" onclick="closeProgramSettings()">×</button></div><div class="profile-tabs"><button class="${tab==='general'?'on':''}" onclick="setProgramSettingsTab('general')">General</button><button class="${tab==='access'?'on':''}" onclick="setProgramSettingsTab('access')">Access Codes</button></div><div class="profile-body">${body}</div></aside></div>`;
+}
+
 function progIcon(name){
   const paths = {
     eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
@@ -1173,7 +1255,7 @@ function programHtml(){
       <div class="prog-icons">
         <button type="button" class="prog-icon" title="Preview (coming soon)" disabled>${progIcon('eye')}</button>
         <button type="button" class="prog-icon" title="Save to folder (coming soon)" disabled>${progIcon('folder')}</button>
-        <button type="button" class="prog-icon" title="Program settings (coming soon)" disabled>${progIcon('gear')}</button>
+        <button type="button" class="prog-icon" title="Program settings" onclick="ui.programSettings=true;ui.programSettingsTab='general';render()">${progIcon('gear')}</button>
         <button type="button" class="btn small" onclick="go('assign',{programId:ui.programId})">Assign</button>
       </div>
     </div>
@@ -1183,7 +1265,7 @@ function programHtml(){
       <button type="button" class="btn" onclick="addWeek()">Add week</button>
       <span class="muted">Empty cells stay blank — click to place a session template.</span>
     </div>
-    ${templatePickerHtml()}`;
+    ${templatePickerHtml()}${programSettingsHtml()}`;
 }
 
 function tplBlocks(){ return tpl(ui.templateId)?.blocks || []; }
@@ -1720,6 +1802,7 @@ function coachChrome(body){
   }).join('');
   const initials = String(S.coach?.name||'D').slice(0,1).toUpperCase();
   const hasRail = ui.view === 'home';
+  const immersiveCalendar = ui.view === 'athlete' || ui.view === 'team';
   const welcome = S.coach?.name ? `Welcome back, Coach ${esc(S.coach.name)}` : 'Welcome back';
   const headerLine = ui.view === 'home' ? welcome : `${welcome} · ${esc(headerTitle())}`;
   return `<aside class="coach-side coach-rail-slim" aria-label="Coach navigation">
@@ -1734,8 +1817,8 @@ function coachChrome(body){
       <button type="button" class="dev-tool" onclick="signOut()" title="Sign out">Sign out</button>
     </div>
   </aside>
-  <div class="coach-workspace">
-    <header class="coach-header">
+  <div class="coach-workspace${immersiveCalendar?' immersive':''}">
+    ${immersiveCalendar?'':`<header class="coach-header">
       <div class="coach-header-title"><span class="welcome-h">${headerLine}</span></div>
       <div class="coach-header-actions">
         <button type="button" class="btn-assist" disabled title="Coming soon">Manage Assistants</button>
@@ -1743,7 +1826,7 @@ function coachChrome(body){
         <span class="icon-btn" title="Coming soon">${icon('bell')}</span>
         <div class="coach-avatar" title="Coach profile">${initials}</div>
       </div>
-    </header>
+    </header>`}
     <div class="coach-body ${hasRail?'has-rail':''}">
       <main class="coach-main">${body}</main>
       ${hasRail?`<aside class="coach-rail" aria-label="Programming status">${needsHtml()}</aside>`:''}
@@ -1829,6 +1912,7 @@ document.addEventListener('click', function coachKebabDismiss(ev) {
 window.go=go; window.signOut=signOut; window.resetDemo=resetDemo; window.tryLogin=tryLogin;
 window.saveComment=saveComment; window.toggleCard=toggleCard;
 window.setHomeDate=setHomeDate; window.shiftHomeDate=shiftHomeDate; window.showLatestFeed=showLatestFeed; window.shiftHomePickerMonth=shiftHomePickerMonth;
+window.closeProgramSettings=closeProgramSettings; window.setProgramSettingsTab=setProgramSettingsTab; window.saveProgramSettings=saveProgramSettings;
 window.openSession=openSession; window.openProgram=openProgram;
 window.newTemplate=newTemplate; window.newProgram=newProgram; window.parseSets=parseSets; window.addEx=addEx; window.addBlk=addBlk;
 window.removeBlk=removeBlk; window.removeEx=removeEx; window.toggleSuperset=toggleSuperset; window.moveBlock=moveBlock; window.growTextAreas=growTextAreas;
