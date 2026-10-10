@@ -93,6 +93,7 @@ a{color:var(--coach-link)}
 .coach-side-foot{margin-top:auto;padding-top:10px;display:grid;gap:4px}
 .coach-side-foot button,.coach-side-foot a.btn{display:grid;place-items:center;width:100%;min-height:36px;padding:6px;border:0;border-radius:8px;background:transparent;color:rgba(255,255,255,.45);font-size:9px;text-align:center}
 .coach-side-foot button:hover,.coach-side-foot a.btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.coach-side-foot .dev-tool{display:none!important}
 
 .coach-workspace{display:flex;flex-direction:column;min-width:0;min-height:100vh}
 .coach-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;min-height:56px;background:var(--coach-header-bg);color:#fff}
@@ -151,22 +152,54 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .slice-stub{display:grid;place-items:center;min-height:280px;text-align:center;gap:8px}
 .slice-stub b{font-family:var(--font-display);font-size:22px}
 
-.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .topbar select{width:auto;min-width:160px}
+.home-toolbar-actions{display:flex;align-items:center;gap:6px;position:relative}
+.home-icon-button{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--muted)}
+.home-icon-button:hover{color:var(--text);border-color:#c5c9ce}
+.home-icon-button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home-date-nav{display:flex;align-items:center;gap:6px}
+.home-date-label{min-width:154px;text-align:center;font-size:13px;font-weight:600}
+.home-date-popover{position:absolute;top:46px;right:0;z-index:35;width:520px;padding:14px;border:1px solid var(--line);background:#fff;box-shadow:0 14px 34px rgba(17,20,24,.18)}
+.home-months{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.home-month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;font-size:12px;font-weight:700}
+.home-month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.home-month-grid .dow{font-size:9px;color:var(--muted);text-align:center;padding:4px 0;text-transform:uppercase}
+.home-month-grid button,.home-month-grid span{display:grid;place-items:center;min-height:28px;border:0;background:transparent;color:var(--text);font-size:11px}
+.home-month-grid button:hover{background:#eef2ff;color:var(--th-blue)}
+.home-month-grid button.selected{background:var(--th-blue);color:#fff;border-radius:50%}
+.home-empty{min-height:360px;display:grid;place-items:center;text-align:center}
+.home-empty-icon{font-size:62px;line-height:1;color:#f2c100;margin-bottom:12px}
 .metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px}
 .metrics.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.feed-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 12px;margin-top:14px}
+.feed-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 12px;margin-top:14px}
 .feed-metrics .metric{text-align:center;padding:8px 4px;min-width:0}
 .feed-metrics .metric b{display:block;font-family:var(--font-display);font-size:clamp(16px,2.2vw,20px);font-weight:600;color:var(--coach-main-text);line-height:1.15}
 .feed-metrics .metric span{display:block;margin-top:4px;color:var(--coach-main-muted);font-size:10px;letter-spacing:.06em;text-transform:uppercase;line-height:1.25}
-.feed-metrics .metric--blocks{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;gap:2px 12px;text-align:left;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}
-.feed-metrics .metric--blocks .ring{grid-row:1/span 2;margin:0;width:42px;height:42px}
+.feed-metrics .metric--blocks{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;gap:1px 7px;justify-content:center;align-items:center;padding:8px 4px}
+.feed-metrics .metric--blocks .ring{grid-row:1/span 2;margin:0;width:38px;height:38px}
 .feed-metrics .metric--blocks b,.feed-metrics .metric--blocks span{text-align:left}
 .metric{text-align:center;padding:10px 4px}
 .metric b{display:block;font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--coach-main-text)}
 .metric span{color:var(--coach-main-muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
 .ring{width:42px;height:42px;margin:0 auto 4px}
 .dateh{margin:22px 0 10px;font-family:var(--font-display);font-size:20px;letter-spacing:.02em;color:var(--coach-main-text)}
+.feed-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.feed-athlete{display:flex;align-items:flex-start;gap:10px}
+.athlete-avatar{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:#3f3f46;color:#fff;font-size:11px;font-weight:700;text-transform:uppercase}
+.athlete-link{display:block;padding:0;border:0;background:transparent;color:var(--th-blue);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-align:left}
+.athlete-link:hover{text-decoration:underline;text-underline-offset:3px}
+.new-athlete{margin-left:4px;color:#f59e0b;letter-spacing:0;text-transform:none}
+.review-block{margin-top:10px;padding:13px 14px;border-top:1px solid var(--line);background:#fff}
+.review-block-head{display:flex;align-items:flex-start;gap:10px}
+.review-status{display:grid;place-items:center;width:22px;height:22px;border:2px solid #c8cdd3;border-radius:50%;color:#fff;font-size:11px;font-weight:800;flex:0 0 22px}
+.review-status.done{background:#16a34a;border-color:#16a34a}
+.review-status.partial{background:#f59e0b;border-color:#f59e0b}
+.review-block-title{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.review-exercise{display:grid;grid-template-columns:32px 1fr;gap:8px;margin-top:9px;font-size:12px;line-height:1.45}
+.review-letter{font-weight:800;color:var(--text)}
+.review-actual{font-weight:700;color:var(--text)}
+.review-for-completion{display:inline-block;margin-top:4px;color:var(--th-blue);font-size:10px;font-weight:700;text-transform:uppercase}
 .presc{text-decoration:line-through;color:var(--dim)}
 .actual{color:var(--copper2);font-weight:600}
 .grid7{display:grid;grid-template-columns:88px repeat(7,1fr);gap:6px;align-items:stretch}
@@ -245,6 +278,18 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .kebab-btn.danger:hover{background:rgba(208,137,125,.1)}
 .picker-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:grid;place-items:center;z-index:50;padding:20px;animation:coachFade .2s var(--ease) both}
 .picker-panel{width:min(520px,100%);max-height:min(80vh,640px);overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px;box-shadow:var(--shadow)}
+.picker-overlay.comment-overlay{place-items:stretch end;padding:0;background:rgba(0,0,0,.68)}
+.comment-drawer{display:flex;flex-direction:column;width:min(400px,100vw);max-height:100vh;height:100vh;border:0;border-radius:0;padding:0;overflow:hidden;box-shadow:-12px 0 30px rgba(0,0,0,.18)}
+.comment-drawer-head{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f5f5f5;border-bottom:1px solid var(--line)}
+.comment-team-badge{display:grid;place-items:center;width:36px;height:36px;border-radius:3px;background:#10101c;color:#fff;font-size:9px;font-weight:800}
+.comment-context{min-width:0;flex:1}
+.comment-context b{display:block;font-size:14px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.comment-context span{display:block;margin-top:1px;font-size:11px;text-transform:uppercase}
+.comment-drawer-body{flex:1;min-height:0;overflow:auto;padding:0 10px 18px}
+.comment-drawer-body .review-block{padding:18px 12px;margin:0;border-top:0;border-bottom:1px solid var(--line)}
+.comment-composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line);background:#fff}
+.comment-composer textarea{min-height:42px;height:42px;resize:none;border-radius:22px;padding:11px 14px;overflow:hidden}
+.gif-button{min-height:32px;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:10px;font-weight:800}
 .picker-list{display:grid;gap:6px;margin-top:12px;max-height:360px;overflow:auto}
 .picker-item{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:var(--text);transition:border-color var(--ease)}
 .picker-item:hover{border-color:rgba(212,165,116,.35)}
@@ -347,7 +392,7 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 @media(max-width:1100px){
   .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
   .metrics.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .feed-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feed-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 @media(max-width:980px){
   #coachApp.coach-shell{grid-template-columns:1fr}
@@ -362,6 +407,8 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 @media(max-width:640px){
   .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
   .feed-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
+  .home-date-popover{position:fixed;left:8px;right:8px;top:64px;width:auto}
+  .home-months{grid-template-columns:1fr}
   .cal-grid,.cal-dow-row{gap:4px}
   .cal-day{min-height:72px;padding:4px}
 }
@@ -397,6 +444,7 @@ const ui = {
   calMonth:null, calDay:null, chipMenu:null, libPick:null,
   assignTeamId:null, assignStart:null, nutAthleteId:null,
   exCatalogSearch:'', commentDrawer:null, filterAthlete:'all',
+  homeMode:'latest', homeDate:L.today(), homeCalendarOpen:false, homePickerMonth:L.today().slice(0,7),
 };
 
 const $ = (id) => document.getElementById(id);
@@ -678,18 +726,23 @@ function metricRow(m){
 }
 
 function blockDetail(session){
-  return (session.blocks||[]).map(b => {
-    const letter = b.letter ? `<span class="pill">${esc(b.letter)}</span>` : '';
+  return (session.blocks||[]).map((b, bi) => {
+    const complete = L.blockIsComplete(b);
+    const partial = !complete && ((b.exercises||[]).some(e => (e.rows||[]).some(r => r.done || r.weight || r.reps)) || b.complete);
+    const state = complete ? 'done' : (partial ? 'partial' : '');
+    const mark = complete ? '✓' : (partial ? '•' : '');
+    const letter = b.letter || String.fromCharCode(65 + bi);
     const ex = (b.exercises||[]).map(e => {
       const actual = L.actualLine(e);
       const swap = e.swappedFrom ? `<div class="muted">Swapped from ${esc(e.swappedFrom.name)}</div>` : '';
-      return `<div style="margin-top:10px"><div class="row"><b>${esc(e.name)}</b><span class="pill">${esc(e.metric||'Weight')}</span></div>
+      return `<div class="review-exercise"><div class="review-letter">${esc(letter)}</div><div><b>${esc(e.name)}</b>
         <div class="presc">${esc(L.prescriptionLine(e))}</div>
-        ${actual?`<div class="actual">${esc(actual)}</div>`:''}
-        ${e.athleteNote?`<div class="muted">${esc(e.athleteNote)}</div>`:''}${swap}</div>`;
+        ${actual?`<div class="review-actual">${esc(actual)}</div>`:''}
+        ${e.athleteNote?`<div class="muted">${esc(e.athleteNote)}</div>`:''}${swap}
+        ${b.scoring==='completion'?'<span class="review-for-completion">For Completion</span>':''}</div></div>`;
     }).join('');
-    const notes = b.notes ? `<div class="muted" style="margin-top:8px">${esc(b.notes)}</div>` : '';
-    return `<div class="card" style="margin-top:10px"><div class="row"><div><span class="eyebrow">${esc(b.category||b.type)}</span><div>${letter} ${esc(b.heading||'')}</div></div><span class="pill">${b.scoring==='weight'?'For Weight':'For Completion'}</span></div>${notes}${ex}</div>`;
+    const notes = b.notes ? `<div class="muted" style="margin:8px 0 0 40px">${esc(b.notes)}</div>` : '';
+    return `<div class="review-block" data-scoring-label="${b.scoring==='completion'?'For Completion':'For Weight'}"><div class="review-block-head"><span class="review-status ${state}">${mark}</span><div><div class="review-block-title">${esc(b.category||b.type||'Block')}</div>${b.heading?`<div class="muted">${esc(b.heading)}</div>`:''}</div></div>${notes}${ex}</div>`;
   }).join('');
 }
 
@@ -702,15 +755,49 @@ function saveComment(sessionId){
 
 function toggleCard(id){ ui.expanded[id] = !ui.expanded[id]; render(); }
 
+function homeDateLabel(date){
+  try { return new Date(String(date)+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}); }
+  catch (_) { return String(date||''); }
+}
+
+function setHomeDate(date){ ui.homeDate=date;ui.homeMode='date';ui.homeCalendarOpen=false;render(); }
+function shiftHomeDate(days){ setHomeDate(L.addDays(ui.homeDate||L.today(),days)); }
+function showLatestFeed(){ ui.homeMode='latest';ui.homeCalendarOpen=false;render(); }
+function shiftHomePickerMonth(delta){ ui.homePickerMonth=L.shiftMonth(ui.homePickerMonth||L.today().slice(0,7),delta);render(); }
+
+function homeMonthHtml(monthKey, allowPrev, allowNext){
+  const heads=['M','T','W','T','F','S','S'].map(x=>`<span class="dow">${x}</span>`).join('');
+  const cells=L.monthGridCells(monthKey).map(d=>d
+    ? `<button type="button" class="${d===ui.homeDate?'selected':''}" onclick="setHomeDate('${d}')">${Number(d.slice(8))}</button>`
+    : '<span></span>').join('');
+  return `<div><div class="home-month-head"><button type="button" class="btn ghost small" ${allowPrev?'onclick="shiftHomePickerMonth(-1)"':'disabled'}>‹</button><span>${esc(L.monthLabel(monthKey))}</span><button type="button" class="btn ghost small" ${allowNext?'onclick="shiftHomePickerMonth(1)"':'disabled'}>›</button></div><div class="home-month-grid">${heads}${cells}</div></div>`;
+}
+
+function homeCalendarHtml(){
+  if(!ui.homeCalendarOpen) return '';
+  const first=ui.homePickerMonth||L.today().slice(0,7);
+  return `<div class="home-date-popover" role="dialog" aria-label="Choose feed date"><div class="home-months">${homeMonthHtml(first,true,false)}${homeMonthHtml(L.shiftMonth(first,1),false,true)}</div></div>`;
+}
+
 function feedHtml(){
   const athletes = S.athletes||[];
   let list = S.sessions||[];
   if (ui.filterAthlete === '1to1') {
     const teamIds = new Set((S.teams||[]).flatMap(t => t.athleteIds||[]));
     list = list.filter(s => !teamIds.has(s.athleteId));
+  } else if (ui.filterAthlete === 'new') {
+    const ids = new Set(athletes.filter(a=>a.isNew||a.status==='invited').map(a=>a.id));
+    list = list.filter(s=>ids.has(s.athleteId));
+  } else if (ui.filterAthlete === 'me') {
+    list = [];
+  } else if (String(ui.filterAthlete||'').startsWith('team:')) {
+    const t=team(String(ui.filterAthlete).slice(5));
+    const ids=new Set((t&&t.athleteIds)||[]);
+    list=list.filter(s=>ids.has(s.athleteId));
   } else if (ui.filterAthlete && ui.filterAthlete !== 'all') {
     list = list.filter(s => s.athleteId === ui.filterAthlete);
   }
+  if(ui.homeMode==='date') list=list.filter(s=>s.date===(ui.homeDate||L.today()));
   const groups = L.groupFeed(list, athletes);
   const cards = groups.map(g => `<div class="dateh">${esc(g.label)}</div>` + g.cards.map(c => {
     const s = c.session;
@@ -718,27 +805,35 @@ function feedHtml(){
     const title = s.sessionTitle || s.name;
     const notePreview = s.comment?.text ? `<div class="muted" style="margin-top:8px">${esc(s.comment.text.slice(0,120))}${s.comment.text.length>120?'…':''}</div>` : '';
     const statusPill = s.status === 'completed' ? 'pill ok' : (s.status === 'active' ? 'pill warn' : 'pill');
+    const athleteName=c.athlete?.name||'Athlete';
+    const initials=athleteName.split(/\s+/).map(x=>x[0]).join('').slice(0,2);
     return `<div class="card feed-card interactive">
-      <div class="row"><div><div class="eyebrow">${esc(c.athlete?.name||'Athlete')}</div><h2 style="font-size:20px;margin-top:4px">${esc(s.name)}</h2><div class="muted">${esc(title)}</div></div><span class="${statusPill}">${esc(s.status)}</span></div>
+      <div class="feed-card-head"><div class="feed-athlete"><span class="athlete-avatar">${esc(initials)}</span><div><button type="button" class="athlete-link" onclick="go('athlete',{athleteId:'${esc(s.athleteId)}'})">${esc(athleteName)}${c.athlete?.isNew?'<span class="new-athlete">New 👋</span>':''}</button><h2 style="font-size:20px;margin-top:4px">${esc(s.name)}</h2><div class="muted">${esc(title)}</div></div></div><span class="${statusPill}">${esc(s.status)}</span></div>
       ${metricRow(c.metrics)}
       ${notePreview}
       <div class="row" style="margin-top:12px;justify-content:flex-start;gap:8px;flex-wrap:wrap">
-        <button type="button" class="btn ghost small" onclick="toggleCard('${s.id}')">${open?'See less':'See more'}</button>
+        ${ui.expandAll?'':`<button type="button" class="btn ghost small" onclick="toggleCard('${s.id}')">${open?'See less':'See more'}</button>`}
       </div>
       <button type="button" class="session-comment-bar" onclick="openCommentDrawer('${s.id}')">Session Comment</button>
       ${open?blockDetail(s):''}
     </div>`;
-  }).join('')).join('') || `<div class="empty-panel"><div class="eyebrow">Latest feed</div><h2>No sessions yet</h2><p class="muted">When athletes log work, cards land here. Assign and publish from Library to get started.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="go('library',{lib:'programs'})">Open library</button></div></div>`;
+  }).join('')).join('') || `<div class="home-empty"><div><div class="home-empty-icon">♧</div><h2>No logged sessions found</h2><p class="muted" style="margin-top:8px">Try a different combination of filters to see athlete activity.</p></div></div>`;
   const opts = athletes.map(a => `<option value="${a.id}" ${ui.filterAthlete===a.id?'selected':''}>${esc(a.name)}</option>`).join('');
+  const teamOpts=(S.teams||[]).map(t=>`<option value="team:${t.id}" ${ui.filterAthlete===`team:${t.id}`?'selected':''}>${esc(t.name)}</option>`).join('');
+  const dateActions=ui.homeMode==='date'
+    ? `<div class="home-date-nav"><button type="button" class="btn small" onclick="shiftHomeDate(-1)">‹</button><span class="home-date-label">${esc(homeDateLabel(ui.homeDate))}</span><button type="button" class="btn small" onclick="shiftHomeDate(1)">›</button><button type="button" class="btn small" onclick="showLatestFeed()">Latest</button></div>`
+    : `<button type="button" class="btn small" onclick="showLatestFeed()">Latest</button>`;
   return `<div class="fade-in"><div class="topbar"><div class="filter-pill"><span class="muted">All Athletes (${athletes.length})</span>
     <select onchange="ui.filterAthlete=this.value;render()" aria-label="Filter athletes" style="border:0;width:auto;min-width:140px">
       <option value="all" ${ui.filterAthlete==='all'?'selected':''}>All Athletes</option>
       <option value="1to1" ${ui.filterAthlete==='1to1'?'selected':''}>1:1 Athletes</option>
-      ${opts}</select></div>
-      <div class="row" style="gap:8px"><button type="button" class="btn small">Latest</button></div></div>
+      <option value="new" ${ui.filterAthlete==='new'?'selected':''}>New Members</option>
+      <option value="me" ${ui.filterAthlete==='me'?'selected':''}>Me</option>
+      ${teamOpts}${opts}</select></div>
+      <div class="home-toolbar-actions">${dateActions}<button type="button" class="home-icon-button" aria-label="Choose date" onclick="ui.homeCalendarOpen=!ui.homeCalendarOpen;render()"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></button>${homeCalendarHtml()}</div></div>
     <label class="check-row"><input type="checkbox" ${ui.expandAll?'checked':''} onchange="ui.expandAll=this.checked;render()"> Expand all cards</label>
     <div class="stack">${cards}</div>
-    ${commentDrawerHtml()}</div>`;
+    </div>${commentDrawerHtml()}`;
 }
 
 function openCommentDrawer(sessionId){
@@ -752,23 +847,28 @@ function commentDrawerHtml(){
   if (!ui.commentDrawer) return '';
   const s = ses(ui.commentDrawer);
   if (!s) return '';
-  const a = athleteBy(s.athleteId);
-  return `<div class="picker-overlay" onclick="if(event.target===this)closeCommentDrawer()">
-    <div class="picker-panel" role="dialog" aria-label="Session comment">
-      <div class="row"><div><div class="eyebrow">${esc(a?.name||'Athlete')}</div><b>${esc(s.sessionTitle||s.name)}</b></div>
-      <button type="button" class="btn ghost small" onclick="closeCommentDrawer()">Close</button></div>
-      <div class="field" style="margin-top:12px"><label>Session comment</label>
-        <textarea id="note-${s.id}" placeholder="Comment on this session…">${esc(s.comment?.text||'')}</textarea></div>
-      <button class="btn primary block" style="margin-top:8px" onclick="saveComment('${s.id}');closeCommentDrawer()">Send</button>
+  const tm=(S.teams||[]).find(t=>(t.athleteIds||[]).includes(s.athleteId));
+  return `<div class="picker-overlay comment-overlay" onclick="if(event.target===this)closeCommentDrawer()">
+    <div class="picker-panel comment-drawer" role="dialog" aria-label="Session comment">
+      <div class="comment-drawer-head"><span class="comment-team-badge">${esc((tm?.name||'1:1').split(/\s+/).map(x=>x[0]).join('').slice(0,3))}</span>
+        <div class="comment-context"><b>${esc(tm?.name||'1:1 Athlete')}</b><span>${esc(s.name)}</span></div>
+        <button type="button" class="btn ghost small" aria-label="Close session comment" onclick="closeCommentDrawer()">×</button></div>
+      <div class="comment-drawer-body">${blockDetail(s)}</div>
+      <div class="comment-composer"><button type="button" class="gif-button" title="GIF attachments coming soon">GIF</button>
+        <textarea id="note-${s.id}" aria-label="Session comment text" placeholder="Comment on ${esc(s.name)}">${esc(s.comment?.text||'')}</textarea>
+        <button class="btn primary" onclick="saveComment('${s.id}');closeCommentDrawer()">Send</button></div>
     </div></div>`;
 }
 
 function needsHtml(){
   const n = L.needsProgramming(S);
-  if (!n.athletes.length && !n.teams.length) {
+  const teams=(S.teams||[]).filter(t=>(t.athleteIds||[]).some(id=>n.athletes.some(a=>a.id===id)));
+  if (!n.athletes.length && !teams.length) {
     return `<div class="empty-panel"><div class="eyebrow">Needs Programming</div><h2>All Clear</h2><p class="muted">There are currently no teams or athletes in need of programming.</p></div>`;
   }
-  return `<div class="card interactive"><div class="eyebrow">Needs programming</div><h2 style="font-size:20px;margin-top:6px">${n.athletes.length} athlete${n.athletes.length===1?'':'s'}</h2><p class="muted" style="margin-top:8px">${n.athletes.map(a=>esc(a.name)).join(', ')}</p></div>`;
+  const athleteRows=n.athletes.map(a=>`<button type="button" class="picker-item" onclick="go('athlete',{athleteId:'${a.id}'})"><span>${esc(a.name)}</span><span aria-hidden="true">›</span></button>`).join('');
+  const teamRows=teams.map(t=>`<button type="button" class="picker-item" onclick="go('team',{teamId:'${t.id}'})"><span>${esc(t.name)}</span><span aria-hidden="true">›</span></button>`).join('');
+  return `<div class="card"><div class="eyebrow">Needs Programming</div><h2 style="font-size:20px;margin:8px 0 12px">${n.athletes.length} athlete${n.athletes.length===1?'':'s'}</h2><div class="stack">${athleteRows}${teamRows}</div></div>`;
 }
 
 function monthKey(){ return ui.calMonth || L.today().slice(0,7); }
@@ -1621,21 +1721,22 @@ function coachChrome(body){
   const initials = String(S.coach?.name||'D').slice(0,1).toUpperCase();
   const hasRail = ui.view === 'home';
   const welcome = S.coach?.name ? `Welcome back, Coach ${esc(S.coach.name)}` : 'Welcome back';
+  const headerLine = ui.view === 'home' ? welcome : `${welcome} · ${esc(headerTitle())}`;
   return `<aside class="coach-side coach-rail-slim" aria-label="Coach navigation">
     <div class="coach-brand"><div class="mark">H</div><div><b>THE Hybrid</b><div class="sub">hybrid S&C · coach workspace</div></div></div>
     <nav>${navHtml}</nav>
     <div class="coach-side-foot">
       <span class="nav-soon" title="Coming soon">${icon('support')}<span class="nav-label">Support</span></span>
-      <a class="btn small block" href="https://thehybridsystem.netlify.app/" target="_blank" rel="noopener noreferrer" title="Open athlete app">Open athlete app</a>
-      <button type="button" onclick="pushCloudNow()" title="Push cloud now">Push cloud now</button>
-      <button type="button" onclick="exportBridgeFile()" title="Export bridge file">Export bridge file</button>
-      <button type="button" onclick="resetDemo()" title="Reset demo data">Reset demo</button>
-      <button type="button" onclick="signOut()" title="Sign out">Sign out</button>
+      <a class="btn small block dev-tool" href="https://thehybridsystem.netlify.app/" target="_blank" rel="noopener noreferrer" title="Open athlete app">Open athlete app</a>
+      <button type="button" class="dev-tool" onclick="pushCloudNow()" title="Push cloud now">Push cloud now</button>
+      <button type="button" class="dev-tool" onclick="exportBridgeFile()" title="Export bridge file">Export bridge file</button>
+      <button type="button" class="dev-tool" onclick="resetDemo()" title="Reset demo data">Reset demo</button>
+      <button type="button" class="dev-tool" onclick="signOut()" title="Sign out">Sign out</button>
     </div>
   </aside>
   <div class="coach-workspace">
     <header class="coach-header">
-      <div class="coach-header-title"><span class="welcome-h">${welcome}</span> · ${esc(headerTitle())}</div>
+      <div class="coach-header-title"><span class="welcome-h">${headerLine}</span></div>
       <div class="coach-header-actions">
         <button type="button" class="btn-assist" disabled title="Coming soon">Manage Assistants</button>
         <span class="icon-btn" title="Coming soon">${icon('msg')}<span class="badge">·</span></span>
@@ -1727,6 +1828,7 @@ document.addEventListener('click', function coachKebabDismiss(ev) {
 
 window.go=go; window.signOut=signOut; window.resetDemo=resetDemo; window.tryLogin=tryLogin;
 window.saveComment=saveComment; window.toggleCard=toggleCard;
+window.setHomeDate=setHomeDate; window.shiftHomeDate=shiftHomeDate; window.showLatestFeed=showLatestFeed; window.shiftHomePickerMonth=shiftHomePickerMonth;
 window.openSession=openSession; window.openProgram=openProgram;
 window.newTemplate=newTemplate; window.newProgram=newProgram; window.parseSets=parseSets; window.addEx=addEx; window.addBlk=addBlk;
 window.removeBlk=removeBlk; window.removeEx=removeEx; window.toggleSuperset=toggleSuperset; window.moveBlock=moveBlock; window.growTextAreas=growTextAreas;
