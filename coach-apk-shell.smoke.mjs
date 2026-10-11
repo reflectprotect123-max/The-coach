@@ -30,11 +30,28 @@ const scripts = [
   'coach-bridge.js',
   'coach-cloud.js',
   'coach-views.js',
+  'coach-management.js',
+  'coach-tools.js',
+  'coach-layout.css',
+  'strength-builder.js',
+  'strength-builder.css',
+  'strength-builder-frame.html',
+  'strength-builder-frame.js',
   'coach-native-bridge.js',
 ];
 const sync = readFileSync(join(dir, 'scripts/sync-coach-apk.sh'), 'utf8');
 for (const s of scripts) {
   if (!sync.includes(s)) throw new Error(`sync-coach-apk.sh missing ${s}`);
+}
+if(!sync.includes('athlete-runtime/'))throw new Error('APK sync must include the native preview runtime');
+if(process.env.COACH_PACKAGED_DIR){
+  const base=process.env.COACH_PACKAGED_DIR;
+  for(const page of ['index.html','strength-builder-frame.html']){
+    const entry=readFileSync(join(base,page),'utf8');
+    for(const match of entry.matchAll(/(?:src|href)="(\.\/[^"?#]+)"/g)){
+      if(!existsSync(join(base,match[1])))throw new Error(`Packaged ${page} missing ${match[1]}`);
+    }
+  }
 }
 const gradle = join(dir, 'capacitor/android/app/build.gradle');
 if (existsSync(gradle)) {

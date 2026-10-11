@@ -1,0 +1,52 @@
+/* Coach workspace only. Athlete styling is isolated inside the preview iframe. */
+#strengthBuilder {position:fixed;inset:0;z-index:10000;overflow:auto;background:#f7f8fa;color:#111418;font:14px/1.5 Inter,system-ui,sans-serif;color-scheme:light}
+#strengthBuilder * {box-sizing:border-box}
+#strengthBuilder .sb-header {display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 32px;background:#fff;border-bottom:1px solid #e6e8eb}
+#strengthBuilder h1 {margin:4px 0 0;font-size:24px;letter-spacing:-.6px}
+#strengthBuilder h2 {margin:0;font-size:16px}
+#strengthBuilder .sb-breadcrumb {font-size:12px;color:#6b7280}
+#strengthBuilder .sb-breadcrumb span {margin:0 10px;color:#9ca3af}
+#strengthBuilder .sb-actions {display:flex;gap:14px;align-items:center}
+#strengthBuilder .sb-draft {border:1px solid #e5e7eb;border-radius:5px;padding:5px 9px;color:#5c6570;font-size:12px}
+#strengthBuilder .sb-workspace {display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:32px;max-width:1440px;margin:auto;padding:28px 32px}
+#strengthBuilder .sb-title-row {display:flex;justify-content:space-between;color:#8a9299;font-size:12px;margin-bottom:10px}
+#strengthBuilder .sb-eyebrow {font-size:10px;font-weight:700;letter-spacing:1.3px;color:#6b7280}
+#strengthBuilder .sb-field {display:flex;flex-direction:column;gap:6px;margin:0 0 14px;font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:#5c6570}
+#strengthBuilder input,#strengthBuilder select,#strengthBuilder textarea {width:100%;background:#fff;border:1px solid #dfe3e8;border-radius:5px;padding:10px 12px;color:#111418;font:14px/1.5 Inter,system-ui,sans-serif}
+#strengthBuilder textarea {resize:vertical;min-height:42px}
+#strengthBuilder #sbSessionTitle {font-size:24px;font-weight:600;padding:12px 14px;letter-spacing:-.4px}
+#strengthBuilder .sb-section-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 14px}
+#strengthBuilder .sb-section-heading>span {font-size:11px;color:#8a9299}
+#strengthBuilder .sb-block {background:#fff;border:1px solid #e1e5ea;border-radius:6px;margin-bottom:16px;overflow:hidden}
+#strengthBuilder .sb-block-header {display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #e6e8eb;background:#fafbfc;font-size:12px}
+#strengthBuilder .sb-letter {display:grid;place-items:center;min-width:30px;height:30px;background:#2563eb;color:#fff;border-radius:4px;font-weight:600}
+#strengthBuilder .sb-block-tools {display:flex;align-items:center;gap:8px;margin-left:auto}
+#strengthBuilder .sb-icon {border:1px solid #e6e8eb;border-radius:4px;padding:3px 9px;background:#fff;color:#5c6570}
+#strengthBuilder button:disabled {opacity:.3;cursor:default}
+#strengthBuilder .sb-delete {background:none;border:0;color:#c2413a;font-size:11px;padding:5px}
+#strengthBuilder .sb-block-body {padding:16px}
+#strengthBuilder .sb-prescription {display:grid;grid-template-columns:65px minmax(100px,1fr) minmax(100px,1fr) 105px 135px;gap:10px}
+#strengthBuilder .sb-prescription input,#strengthBuilder .sb-prescription select {padding:8px;font-size:12px;height:38px}
+#strengthBuilder .sb-rx {display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;padding:8px 0 12px;margin-top:-6px;font-size:11px;color:#8a9299}
+#strengthBuilder .sb-rx strong {font-weight:600;color:#5c6570}
+#strengthBuilder .sb-link {display:flex;align-items:center;gap:10px}
+#strengthBuilder .sb-superset,#strengthBuilder .sb-completion {font-size:11px;font-weight:600;color:#2563eb;background:#eff6ff;border-radius:4px;padding:5px 8px}
+#strengthBuilder .sb-add {display:flex;gap:10px;flex-wrap:wrap;padding:6px 0 18px}
+#strengthBuilder .sb-picker {background:#fff;border:1px solid #e1e5ea;padding:16px;border-radius:6px;margin-bottom:18px}
+#strengthBuilder .sb-picker[hidden] {display:none}
+#strengthBuilder .sb-picker .sb-section-heading {margin-top:0}
+#strengthBuilder #sbResults {max-height:260px;overflow:auto;margin-bottom:12px}
+#strengthBuilder .sb-result {display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 4px;border:0;border-bottom:1px solid #edf0f2;background:white;text-align:left;color:#111418;font-size:13px}
+#strengthBuilder .sb-result span {color:#2563eb;font-size:12px}
+#strengthBuilder .sb-preview {position:sticky;top:20px;align-self:start;padding:18px;background:#fff;border:1px solid #e1e5ea;border-radius:8px}
+#strengthBuilder .sb-preview .sb-section-heading {margin:0}
+#strengthBuilder .sb-preview-tag {border-radius:4px;background:#eff6ff;padding:4px 6px;color:#2563eb!important;font-size:10px!important}
+#strengthBuilder .sb-preview p {color:#8a9299;font-size:11px;margin:10px 0 16px}
+#strengthBuilder .sb-preview iframe {display:block;width:100%;height:660px;background:#000;border:0;border-radius:14px;margin-bottom:14px}
+#strengthBuilder .sb-preview .sb-footnote {margin-bottom:0;text-align:center;font-size:10px}
+#strengthBuilder .sb-limits {font-size:11px;color:#6b7280;border-top:1px solid #e1e5ea;padding-top:14px}
+#strengthBuilder .sb-limits summary {cursor:pointer}
+#strengthBuilder #strengthSaveStatus {font-size:11px;color:#6b7280}
+#strengthBuilder .sb-empty {background:#fff;border:1px dashed #dfe3e8;padding:32px;text-align:center;color:#8a9299;margin-bottom:16px}
+@media(max-width:1100px) {#strengthBuilder .sb-prescription {grid-template-columns:repeat(3,minmax(0,1fr))} #strengthBuilder .sb-workspace {gap:20px;padding:20px;grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:800px) {#strengthBuilder .sb-workspace {grid-template-columns:1fr} #strengthBuilder .sb-preview {position:static;max-width:430px;width:100%;margin:auto} #strengthBuilder .sb-header {padding:16px} #strengthBuilder .sb-draft {display:none} #strengthBuilder .sb-section-heading>span {display:none} #strengthBuilder .sb-prescription {grid-template-columns:repeat(2,minmax(0,1fr))}}

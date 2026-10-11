@@ -1,0 +1,78 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const L=require('./coach-loop.js');
+const Builder=require('./strength-builder.js');
+const state=L.buildSeed();
+const source=state.templates.find(t=>t.id===L.IDS.tplStrength);
+source.athleteTemplate=Builder.convert(source).template;
+source.athleteCatalog={exercises:[{id:'custom',title:'Custom exercise',columns:['reps']}],circuits:[]};
+source.athleteConversionWarnings=['Preserved original targets'];
+const before=JSON.stringify(source);
+const copy=L.duplicateTemplate(source);
+assert.notEqual(copy.id,source.id);
+assert.equal(copy.athleteTemplate.id,copy.id);
+assert.equal(copy.athleteTemplate.title,source.athleteTemplate.title+' (copy)');
+assert.notEqual(copy.blocks[0].id,source.blocks[0].id);
+assert.notEqual(copy.athleteTemplate.blocks[0].id,source.athleteTemplate.blocks[0].id);
+const sourceGroup=source.athleteTemplate.blocks.find(b=>b.groupId).groupId;
+const copyGroup=copy.athleteTemplate.blocks.filter(b=>b.groupId);
+assert.equal(copyGroup.length,2);
+assert.equal(copyGroup[0].groupId,copyGroup[1].groupId);
+assert.notEqual(copyGroup[0].groupId,sourceGroup);
+copy.athleteCatalog.exercises[0].title='Changed';
+assert.equal(JSON.stringify(source),before,'copy must not share mutable draft/catalog references');
+assert.ok(L.templateUsage(state,source.id).programs>0);
+assert.ok(L.templateUsage(state,source.id).sessions>0);
+assert.deepEqual(L.templateUsage(state,copy.id),{programs:0,sessions:0});
+console.log('Coach template duplication, native draft preservation, and usage guards passed');
+
+if(process.env.COACH_BROWSER_URL){
+  const {chromium}=require('playwright');
+  const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
+  try {
+    const page=await browser.newPage({viewport:{width:1280,height:900}});
+    const errors=[];page.on('pageerror',e=>errors.push(e.message));
+    await page.goto(process.env.COACH_BROWSER_URL);
+    await page.getByRole('button',{name:'Demo coach (offline)'}).click();
+    await page.evaluate(()=>{
+      const template=tpl(CoachLoop.IDS.tplStrength);
+      template.athleteTemplate=StrengthBuilder.convert(template).template;
+      template.athleteTemplate.title='Coach native draft';
+      L.saveState(null,S);
+      go('library',{lib:'sessions'});
+    });
+    const search=page.getByRole('textbox',{name:'Search sessions',exact:true});
+    await search.fill('coach native draft');
+    assert.equal(await page.locator('#sessionLibraryTable tbody tr:not([hidden])').count(),1);
+    assert.equal(await search.evaluate(el=>document.activeElement===el),true,'search must preserve typing focus');
+    await page.getByRole('checkbox',{name:'Select visible sessions',exact:true}).check();
+    assert.equal(await page.locator('#sessionSelectionStatus').textContent(),'1 selected');
+    await page.getByRole('button',{name:'Delete selected sessions',exact:true}).click();
+    await page.getByText('Templates used in programs or assigned sessions cannot be deleted.',{exact:false}).waitFor();
+    assert.ok(await page.evaluate(()=>!!tpl(CoachLoop.IDS.tplStrength)));
+    await page.getByRole('button',{name:'Duplicate Full Body Strength',exact:true}).click();
+    assert.equal(await page.locator('#sessionLibraryTable tbody tr:not([hidden])').count(),2);
+    const copyId=await page.evaluate(()=>S.templates.find(t=>t.name==='Full Body Strength (copy)').id);
+    assert.equal(await page.evaluate(id=>tpl(id).athleteTemplate.id,copyId),copyId);
+    await page.locator(`tr[data-template-id="${copyId}"]`).getByRole('button',{name:'Continue editing',exact:true}).click();
+    await page.getByRole('dialog',{name:'Coach strength session builder'}).waitFor();
+    assert.equal(await page.locator('#sbSessionTitle').inputValue(),'Coach native draft (copy)');
+    await page.getByRole('button',{name:'Back to coach',exact:true}).click();
+    await page.getByRole('checkbox',{name:'Select visible sessions',exact:true}).check();
+    page.once('dialog',d=>d.dismiss());
+    await page.getByRole('button',{name:'Delete selected sessions',exact:true}).click();
+    assert.ok(await page.evaluate(id=>!!tpl(id),copyId),'cancel must retain copy');
+    page.once('dialog',d=>d.accept());
+    await page.getByRole('button',{name:'Delete selected sessions',exact:true}).click();
+    assert.equal(await page.evaluate(id=>!!tpl(id),copyId),false);
+    assert.ok(await page.evaluate(()=>!!tpl(CoachLoop.IDS.tplStrength)),'bulk delete must retain in-use source');
+    await page.reload();
+    await page.evaluate(()=>go('library',{lib:'sessions'}));
+    await page.getByRole('button',{name:'Restore deleted templates (1)',exact:true}).click();
+    assert.equal(await page.evaluate(id=>tpl(id).athleteTemplate.title,copyId),'Coach native draft (copy)');
+    assert.equal(await page.evaluate(()=>S.templateTrash.length),0);
+    assert.deepEqual(errors,[]);
+    console.log('Browser library search, selection, protected deletion, duplication, resume, and restore passed');
+  }finally{await browser.close();}
+}

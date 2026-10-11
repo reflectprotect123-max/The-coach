@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>THE Hybrid — Coach</title>
+<link rel="stylesheet" href="strength-builder.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -60,7 +61,7 @@ a{color:var(--coach-link)}
 .check-row{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin-bottom:12px;color:var(--muted);font-size:13px;cursor:pointer;user-select:none}
 .check-row input{width:auto;accent-color:var(--copper)}
 .fade-in{animation:coachFade .35s var(--ease) both}
-@keyframes coachFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes coachFade{from{opacity:0}to{opacity:1}}
 
 /* gate */
 #gate{max-width:440px;margin:0 auto;padding:48px 20px;background:var(--bg);color:var(--text);min-height:100vh}
@@ -83,9 +84,9 @@ a{color:var(--coach-link)}
 .coach-side.coach-rail-slim,.coach-side{display:flex;flex-direction:column;padding:12px 8px;background:var(--coach-nav-bg);color:#fff;min-height:100vh;width:var(--coach-rail-width)}
 .coach-brand{display:grid;place-items:center;padding:8px 0 16px}
 .coach-brand b,.coach-brand .sub{display:none}
-.coach-side nav{display:grid;gap:4px;flex:1;margin-top:4px}
-.coach-side nav button,.coach-side .nav-soon{display:grid;place-items:center;width:100%;min-height:44px;padding:8px;border:0;border-radius:8px;background:transparent;color:rgba(255,255,255,.55);font-size:0;text-align:center}
-.coach-side nav button .nav-label,.coach-side .nav-soon .nav-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.coach-side nav{display:grid;align-content:start;gap:4px;flex:0;margin-top:4px}
+.coach-side nav button,.coach-side .nav-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:100%;min-height:54px;padding:6px 2px;border:0;border-radius:4px;background:transparent;color:rgba(255,255,255,.8);font-size:10px;text-align:center}
+.coach-side nav button .nav-label,.coach-side .nav-soon .nav-label{position:static;width:auto;height:auto;overflow:visible;clip:auto;line-height:1.1;max-width:52px}
 .coach-side nav button.on{background:var(--coach-nav-active);color:#fff}
 .coach-side nav button:hover:not(.on):not(:disabled){background:rgba(255,255,255,.08);color:#fff}
 .coach-side nav button:disabled,.coach-side .nav-soon{opacity:.42;cursor:not-allowed}
@@ -173,12 +174,13 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px}
 .metrics.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .feed-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px 12px;margin-top:14px}
-.feed-metrics .metric{text-align:center;padding:8px 4px;min-width:0}
+.feed-metrics .metric{text-align:center;padding:8px 4px;min-width:0;display:flex;flex-direction:column;align-items:center}
 .feed-metrics .metric b{display:block;font-family:var(--font-display);font-size:clamp(16px,2.2vw,20px);font-weight:600;color:var(--coach-main-text);line-height:1.15}
 .feed-metrics .metric span{display:block;margin-top:4px;color:var(--coach-main-muted);font-size:10px;letter-spacing:.06em;text-transform:uppercase;line-height:1.25}
-.feed-metrics .metric--blocks{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;gap:1px 7px;justify-content:center;align-items:center;padding:8px 4px}
-.feed-metrics .metric--blocks .ring{grid-row:1/span 2;margin:0;width:38px;height:38px}
-.feed-metrics .metric--blocks b,.feed-metrics .metric--blocks span{text-align:left}
+.feed-metrics .metric--blocks{gap:0;justify-content:flex-start}
+.feed-metrics .metric--blocks .ring,.feed-metrics .metric-icon{width:44px;height:44px;margin:0 0 10px;flex-shrink:0}
+.feed-metrics .metric-icon{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:#111418}
+.feed-metrics .metric-icon.missing{color:#b1b1b1}
 .metric{text-align:center;padding:10px 4px}
 .metric b{display:block;font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--coach-main-text)}
 .metric span{color:var(--coach-main-muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
@@ -288,11 +290,15 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .comment-drawer-body{flex:1;min-height:0;overflow:auto;padding:0 10px 18px}
 .comment-drawer-body .review-block{padding:18px 12px;margin:0;border-top:0;border-bottom:1px solid var(--line)}
 .comment-composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line);background:#fff}
-.comment-composer textarea{min-height:42px;height:42px;resize:none;border-radius:22px;padding:11px 14px;overflow:hidden}
+.comment-composer textarea{min-height:42px;max-height:150px;height:42px;resize:vertical;border-radius:22px;padding:11px 14px;overflow:auto}
+.comment-thread{padding:12px;border-top:1px solid var(--line)}
+.comment-thread article{margin-top:10px;padding:10px;background:#f5f7fa;border-radius:6px;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.comment-thread time{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}
 .gif-button{min-height:32px;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:10px;font-weight:800}
 .picker-list{display:grid;gap:6px;margin-top:12px;max-height:360px;overflow:auto}
 .picker-item{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:var(--text);transition:border-color var(--ease)}
 .picker-item:hover{border-color:rgba(212,165,116,.35)}
+.picker-item[hidden]{display:none}
 .template-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--text);transition:border-color var(--ease),box-shadow var(--ease)}
 .template-row:hover{border-color:rgba(212,165,116,.28);box-shadow:var(--shadow)}
 .engine-box{margin-top:4px}
@@ -355,6 +361,9 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .roster-table th{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
 .roster-table tbody tr{transition:background var(--ease)}
 .roster-table tbody tr:hover{background:rgba(255,255,255,.025)}
+.roster-table tbody tr.roster-selected{background:#c9e8fb}
+.profile-ex-row[hidden]{display:none}
+p[role="status"]:empty{display:none}
 .linkish{background:transparent;border:0;padding:0;color:var(--copper2);font-weight:650;cursor:pointer;text-align:left}
 .linkish:hover{text-decoration:underline;text-underline-offset:3px}
 .surface-titlebar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-4px 0 14px}
@@ -380,6 +389,11 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .status-dot{display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:50%;background:#ef4444;vertical-align:middle}
 .profile-overlay{position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.46)}
 .profile-drawer{position:absolute;inset:0 0 0 auto;width:min(430px,100vw);display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 30px rgba(0,0,0,.2)}
+.athlete-profile-drawer .profile-head,.athlete-profile-drawer .profile-tabs{background:#000;color:#fff}
+.athlete-profile-drawer .profile-head b{text-transform:uppercase;font-size:12px;font-weight:500}
+.athlete-profile-drawer .profile-head .subline{color:#aaa}
+.athlete-profile-drawer .profile-tabs button{color:#aaa}
+.athlete-profile-drawer .profile-tabs button.on{color:#fff}
 .profile-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
 .profile-tabs{display:flex;padding:0 12px;border-bottom:1px solid var(--line)}
 .profile-tabs button{padding:13px 10px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase}
@@ -449,8 +463,10 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 }
 @media(max-width:980px){
   #coachApp.coach-shell{grid-template-columns:1fr}
-  .coach-side{flex-direction:row;flex-wrap:wrap;min-height:auto;border-right:0;border-bottom:1px solid var(--line)}
-  .coach-side nav{display:flex;flex-wrap:wrap;margin:0}
+  .coach-side.coach-rail-slim,.coach-side{flex-direction:row;flex-wrap:wrap;min-height:auto;width:100%;border-right:0;border-bottom:1px solid var(--line)}
+  .coach-side nav{display:flex;flex:1;flex-wrap:wrap;margin:0}
+  .coach-side nav button,.coach-side .nav-soon{width:54px;min-height:50px}
+  .coach-side-foot{display:none}
   .coach-body.has-rail{grid-template-columns:1fr}
   .coach-rail{display:none}
   .coach-main{padding:18px 16px 40px}
@@ -479,7 +495,12 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
   *,*::before,*::after{animation:none !important;transition:none !important}
 }
 
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--th-blue);outline-offset:3px}
+.tools-dashboard{padding-top:24px}.tools-dashboard h1{font-size:24px}.report-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}.report-card{background:#fff;border:1px solid var(--line);border-radius:5px;padding:24px;min-height:190px;box-shadow:0 2px 3px #0002;display:flex;flex-direction:column;gap:18px}.report-card h2{font-size:20px}.report-card .row{margin-top:auto}.report-card p{line-height:1.5}
+@media(max-width:980px){.report-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:640px){.report-cards{grid-template-columns:1fr}}
+@media(max-width:640px){.bulk-actions{flex-wrap:wrap;min-width:0;gap:6px}.bulk-toolbar{flex-wrap:wrap;gap:8px}.calendar-actions{flex-wrap:wrap}.calendar-hero{flex-wrap:wrap}.profile-drawer{max-width:100vw}.profile-body{overflow-wrap:anywhere}}
 </style>
+<link rel="stylesheet" href="coach-layout.css" />
 </head>
 <body>
 <div id="gate"></div>
@@ -495,7 +516,11 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 <script src="./coach-bridge.js"></script>
 <script src="./coach-cloud.js"></script>
 <script src="./coach-views.js"></script>
+<script src="./coach-management.js"></script>
+<script src="./coach-tools.js"></script>
 <script src="./coach-native-bridge.js"></script>
+<script src="./athlete-runtime/library.js"></script>
+<script src="./strength-builder.js"></script>
 <script>
 const L = window.CoachLoop;
 const N = window.CoachNutrition;
@@ -506,7 +531,7 @@ const ui = {
   cellMenu:null, cellPick:null, progSearch:'',
   calMonth:null, calDay:null, chipMenu:null, libPick:null,
   assignTeamId:null, assignStart:null, nutAthleteId:null,
-  exCatalogSearch:'', commentDrawer:null, filterAthlete:'all',
+  exCatalogSearch:'', sessionSearch:'', sessionSelected:{}, sessionNotice:'', commentDrawer:null, filterAthlete:'all',
   homeMode:'latest', homeDate:L.today(), homeCalendarOpen:false, homePickerMonth:L.today().slice(0,7),
   rosterSearch:'', rosterGroup:'all', rosterStatus:'active', rosterSelected:{}, athleteProfileId:null, athleteProfileTab:'exercises',
 };
@@ -529,6 +554,7 @@ function scheduleCloudPush(){
     try {
       if (!(await CoachCloud.isSignedIn())) return;
       const r = await CoachCloud.pushPublished(S);
+      L.saveState(null,S);
       if (r && r.errors && r.errors.length) console.warn('coach cloud push', r.errors);
     } catch (e) {
       console.warn('coach cloud push failed', e);
@@ -551,6 +577,7 @@ async function pushCloudNow(){
   if (!window.CoachCloud) return alert('Cloud module missing');
   if (!(await CoachCloud.isSignedIn())) return alert('Sign in with the athlete Supabase account (WHOOP sign-in) so publish can write assigned_session.');
   const r = await CoachCloud.pushPublished(S);
+  L.saveState(null,S);
   coachPortalToast(r, '');
   render();
 }
@@ -575,7 +602,7 @@ function coachPortalToast(result, athleteName){
   if (result.ok) {
     const n = result.pushed || 0;
     const who = athleteName ? ' to ' + athleteName : '';
-    showCoachToast('Published ' + n + ' session(s)' + who + '. Phone syncs on next open.', 'ok');
+    showCoachToast(n ? 'Published ' + n + ' session(s)' + who + '. Phone syncs on next open.' : 'No new sessions published. Logged or existing assignments were left unchanged.', 'ok');
     return;
   }
   const msg = (result.errors || []).map(e => e.error).join('; ') || result.reason || result.error || 'Push failed';
@@ -608,11 +635,14 @@ function prog(id){ return (S.programs||[]).find(p => p.id === id); }
 function team(id){ return (S.teams||[]).find(t => t.id === id); }
 
 function go(view, extra){
+  const wasSidebarOpen=ui.sidebarOpen;
+  ui.sidebarOpen=false;
   if (view !== 'session') closeCoachExEdit();
   Object.assign(ui, extra||{}, { view });
   if (view === 'library' && !ui.lib) ui.lib = 'programs';
   if (view !== 'session') ui.exPicker = null;
   if (view !== 'program') {
+    ui.programPreview=false;ui.programSettings=false;
     ui.cellMenu = null;
     if (!ui.cellPick || (ui.cellPick.mode !== 'copyTarget' && ui.cellPick.mode !== 'moveTarget')) {
       ui.cellPick = null;
@@ -622,11 +652,14 @@ function go(view, extra){
     ui.chipMenu = null;
     ui.libPick = null;
     ui.calDay = null;
+    ui.calendarPreview=null;
   }
   if (view !== 'home') ui.commentDrawer = null;
   if (view === 'assign' && !ui.assignTeamId && S.teams && S.teams[0]) ui.assignTeamId = S.teams[0].id;
   render();
+  if(wasSidebarOpen)document.getElementById('coachNavigationToggle')?.focus();
 }
+function toggleCoachSidebar(open){ui.sidebarOpen=typeof open==='boolean'?open:!ui.sidebarOpen;render();if(!ui.sidebarOpen)document.getElementById('coachNavigationToggle')?.focus();}
 function openSession(templateId){
   closeCoachExEdit();
   ui.cellMenu = null;
@@ -657,6 +690,7 @@ async function signOut(){
   render();
 }
 function resetDemo(){
+  if(!confirm('Replace this device\'s coach data with demo data? Download a local backup from Coach settings first. Cloud records are not deleted.'))return;
   S = L.resetState();
   Object.assign(ui, { view:'home', lib:'sessions', templateId:null, programId:null, cellMenu:null, cellPick:null, exPicker:null, err:'', calMonth:null, calDay:null, chipMenu:null, libPick:null });
   if (window.CoachViews) CoachViews.bindState(S);
@@ -741,14 +775,14 @@ function navActive(key){
   if (key === 'teams') return ui.view === 'teams' || ui.view === 'team';
   if (key === 'library') return ['library','program','session'].includes(ui.view);
   if (key === 'nutrition') return ui.view === 'nutrition';
-  return false;
+  return key === ui.view;
 }
 
 function headerTitle(){
   const coachName = S.coach?.name || 'Dan';
   if (ui.view === 'home') return `Welcome back, Coach ${coachName}`;
   const titles = { athletes:'My Athletes', athlete:'My Athletes', teams:'My Teams', team:'My Teams', library:'Library', program:'Library', session:'Library', assign:'Assign', nutrition:'Nutrition' };
-  return titles[ui.view] || 'Coach Home';
+  return titles[ui.view] || ({analytics:'Analytics',gym:'Gym Tools',account:'Coach settings'}[ui.view]) || 'Coach Home';
 }
 
 function icon(name){
@@ -779,12 +813,16 @@ function ringSvg(done, total){
 }
 
 function metricRow(m){
+  const metricIcon=(kind,value)=>{
+    const paths={readiness:'<path d="M8 4s-5 6-5 10a5 5 0 0 0 10 0c0-4-5-10-5-10Z"/><path d="M18 5h3M18 9h2M18 13h3M18 17h2M18 21h3"/>',minutes:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l5 3"/>',intensity:'<path d="M4 19a9 9 0 1 1 16 0M5 13l3 1M19 13l-3 1M12 12l-4-4"/>',volume:'<path d="M7 7h10l3 14H4L7 7Z"/><circle cx="12" cy="4" r="2"/>'};
+    return `<svg class="metric-icon ${value==null?'missing':''}" viewBox="0 0 24 24" aria-hidden="true">${paths[kind]}</svg>`;
+  };
   return `<div class="metrics feed-metrics">
     <div class="metric metric--blocks">${ringSvg(m.blocksDone,m.blocksTotal)}<b>${m.blocksDone}/${m.blocksTotal}</b><span>Blocks</span></div>
-    <div class="metric"><b>${dash(m.readiness)}</b><span>Readiness</span></div>
-    <div class="metric"><b>${dash(m.minutes)}</b><span>Minutes</span></div>
-    <div class="metric"><b>${m.intensity==null?'–':m.intensity+'%'}</b><span>Intensity</span></div>
-    <div class="metric"><b>${m.volumeKg?m.volumeKg+' kg':'–'}</b><span>Volume</span></div>
+    <div class="metric">${metricIcon('readiness',m.readiness)}<b>${dash(m.readiness)}</b><span>Readiness</span></div>
+    <div class="metric">${metricIcon('minutes',m.minutes)}<b>${dash(m.minutes)}</b><span>Minutes</span></div>
+    <div class="metric">${metricIcon('intensity',m.intensity)}<b>${m.intensity==null?'–':m.intensity+'%'}</b><span>Intensity</span></div>
+    <div class="metric">${metricIcon('volume',m.volumeKg)}<b>${m.volumeKg==null?'–':m.volumeKg+' kg'}</b><span>Volume</span></div>
   </div>`;
 }
 
@@ -795,10 +833,10 @@ function blockDetail(session){
     const state = complete ? 'done' : (partial ? 'partial' : '');
     const mark = complete ? '✓' : (partial ? '•' : '');
     const letter = b.letter || String.fromCharCode(65 + bi);
-    const ex = (b.exercises||[]).map(e => {
+    const ex = (b.exercises||[]).map((e,ei) => {
       const actual = L.actualLine(e);
       const swap = e.swappedFrom ? `<div class="muted">Swapped from ${esc(e.swappedFrom.name)}</div>` : '';
-      return `<div class="review-exercise"><div class="review-letter">${esc(letter)}</div><div><b>${esc(e.name)}</b>
+      return `<div class="review-exercise"><div class="review-letter">${esc(b.letters?.[ei]||letter)}</div><div><b>${esc(e.name)}</b>
         <div class="presc">${esc(L.prescriptionLine(e))}</div>
         ${actual?`<div class="review-actual">${esc(actual)}</div>`:''}
         ${e.athleteNote?`<div class="muted">${esc(e.athleteNote)}</div>`:''}${swap}
@@ -812,8 +850,13 @@ function blockDetail(session){
 function saveComment(sessionId){
   const el = document.getElementById('note-'+sessionId);
   const s = ses(sessionId); if (!s || !el) return;
-  L.setSessionComment(s, el.value, L.IDS.coach);
-  persist(); render();
+  const error=$('commentSaveStatus');
+  const previousComment=s.comment,previousThread=s.coachComments;
+  const saved=CoachManagement.appendCoachComment(s,el.value,S.coach?.id||account()?.id);
+  if(!saved){if(error)error.textContent='Write a comment (up to 4,000 characters).';return;}
+  try {L.saveState(null,S);}
+  catch(err){if(previousComment===undefined)delete s.comment;else s.comment=previousComment;if(previousThread===undefined)delete s.coachComments;else s.coachComments=previousThread;if(error)error.textContent='Could not save locally: '+err.message;return;}
+  ui.commentDrawer=null;render();
 }
 
 function toggleCard(id){ ui.expanded[id] = !ui.expanded[id]; render(); }
@@ -831,7 +874,7 @@ function shiftHomePickerMonth(delta){ ui.homePickerMonth=L.shiftMonth(ui.homePic
 function homeMonthHtml(monthKey, allowPrev, allowNext){
   const heads=['M','T','W','T','F','S','S'].map(x=>`<span class="dow">${x}</span>`).join('');
   const cells=L.monthGridCells(monthKey).map(d=>d
-    ? `<button type="button" class="${d===ui.homeDate?'selected':''}" onclick="setHomeDate('${d}')">${Number(d.slice(8))}</button>`
+    ? `<button type="button" aria-label="Choose ${d}" class="${d===ui.homeDate?'selected':''}" onclick="setHomeDate('${d}')">${Number(d.slice(8))}</button>`
     : '<span></span>').join('');
   return `<div><div class="home-month-head"><button type="button" class="btn ghost small" ${allowPrev?'onclick="shiftHomePickerMonth(-1)"':'disabled'}>‹</button><span>${esc(L.monthLabel(monthKey))}</span><button type="button" class="btn ghost small" ${allowNext?'onclick="shiftHomePickerMonth(1)"':'disabled'}>›</button></div><div class="home-month-grid">${heads}${cells}</div></div>`;
 }
@@ -844,23 +887,7 @@ function homeCalendarHtml(){
 
 function feedHtml(){
   const athletes = S.athletes||[];
-  let list = S.sessions||[];
-  if (ui.filterAthlete === '1to1') {
-    const teamIds = new Set((S.teams||[]).flatMap(t => t.athleteIds||[]));
-    list = list.filter(s => !teamIds.has(s.athleteId));
-  } else if (ui.filterAthlete === 'new') {
-    const ids = new Set(athletes.filter(a=>a.isNew||a.status==='invited').map(a=>a.id));
-    list = list.filter(s=>ids.has(s.athleteId));
-  } else if (ui.filterAthlete === 'me') {
-    list = [];
-  } else if (String(ui.filterAthlete||'').startsWith('team:')) {
-    const t=team(String(ui.filterAthlete).slice(5));
-    const ids=new Set((t&&t.athleteIds)||[]);
-    list=list.filter(s=>ids.has(s.athleteId));
-  } else if (ui.filterAthlete && ui.filterAthlete !== 'all') {
-    list = list.filter(s => s.athleteId === ui.filterAthlete);
-  }
-  if(ui.homeMode==='date') list=list.filter(s=>s.date===(ui.homeDate||L.today()));
+  const list = CoachManagement.feedSessions(S,{...ui,homeDate:ui.homeDate||L.today()});
   const groups = L.groupFeed(list, athletes);
   const cards = groups.map(g => `<div class="dateh">${esc(g.label)}</div>` + g.cards.map(c => {
     const s = c.session;
@@ -870,17 +897,17 @@ function feedHtml(){
     const statusPill = s.status === 'completed' ? 'pill ok' : (s.status === 'active' ? 'pill warn' : 'pill');
     const athleteName=c.athlete?.name||'Athlete';
     const initials=athleteName.split(/\s+/).map(x=>x[0]).join('').slice(0,2);
-    return `<div class="card feed-card interactive">
+    return `<div class="card feed-card interactive" data-review-session="${esc(s.id)}">
       <div class="feed-card-head"><div class="feed-athlete"><span class="athlete-avatar">${esc(initials)}</span><div><button type="button" class="athlete-link" onclick="go('athlete',{athleteId:'${esc(s.athleteId)}'})">${esc(athleteName)}${c.athlete?.isNew?'<span class="new-athlete">New 👋</span>':''}</button><h2 style="font-size:20px;margin-top:4px">${esc(s.name)}</h2><div class="muted">${esc(title)}</div></div></div><span class="${statusPill}">${esc(s.status)}</span></div>
       ${metricRow(c.metrics)}
       ${notePreview}
       <div class="row" style="margin-top:12px;justify-content:flex-start;gap:8px;flex-wrap:wrap">
-        ${ui.expandAll?'':`<button type="button" class="btn ghost small" onclick="toggleCard('${s.id}')">${open?'See less':'See more'}</button>`}
+        ${ui.expandAll?'':`<button type="button" class="btn ghost small" aria-expanded="${!!open}" onclick="toggleCard(this.closest('[data-review-session]').dataset.reviewSession)">${open?'See less':'See more'}</button>`}
       </div>
-      <button type="button" class="session-comment-bar" onclick="openCommentDrawer('${s.id}')">Session Comment</button>
+      <button type="button" class="session-comment-bar" onclick="openCommentDrawer(this.closest('[data-review-session]').dataset.reviewSession)">Session Comment</button>
       ${open?blockDetail(s):''}
     </div>`;
-  }).join('')).join('') || `<div class="home-empty"><div><div class="home-empty-icon">♧</div><h2>No logged sessions found</h2><p class="muted" style="margin-top:8px">Try a different combination of filters to see athlete activity.</p></div></div>`;
+  }).join('')).join('') || `<div class="home-empty"><div><div class="home-empty-icon">♧</div><h2>No logged sessions found</h2><p class="muted" style="margin-top:8px">${ui.filterAthlete==='me'&&!CoachManagement.selfAthleteIds(S).length?'No athlete profile is linked to this coach account.':'Try a different combination of filters to see athlete activity.'}</p></div></div>`;
   const opts = athletes.map(a => `<option value="${a.id}" ${ui.filterAthlete===a.id?'selected':''}>${esc(a.name)}</option>`).join('');
   const teamOpts=(S.teams||[]).map(t=>`<option value="team:${t.id}" ${ui.filterAthlete===`team:${t.id}`?'selected':''}>${esc(t.name)}</option>`).join('');
   const dateActions=ui.homeMode==='date'
@@ -900,26 +927,29 @@ function feedHtml(){
 }
 
 function openCommentDrawer(sessionId){
+  if(!ses(sessionId)) return;
   ui.commentDrawer = sessionId;
   render();
 }
 
-function closeCommentDrawer(){ ui.commentDrawer = null; render(); }
+function closeCommentDrawer(){ const id=ui.commentDrawer;ui.commentDrawer = null; render();if(id)document.querySelector(`[data-review-session="${CSS.escape(id)}"] .session-comment-bar`)?.focus(); }
 
 function commentDrawerHtml(){
   if (!ui.commentDrawer) return '';
   const s = ses(ui.commentDrawer);
   if (!s) return '';
   const tm=(S.teams||[]).find(t=>(t.athleteIds||[]).includes(s.athleteId));
+  const comments=s.coachComments || (s.comment?.text?[s.comment]:[]);
   return `<div class="picker-overlay comment-overlay" onclick="if(event.target===this)closeCommentDrawer()">
     <div class="picker-panel comment-drawer" role="dialog" aria-label="Session comment">
       <div class="comment-drawer-head"><span class="comment-team-badge">${esc((tm?.name||'1:1').split(/\s+/).map(x=>x[0]).join('').slice(0,3))}</span>
         <div class="comment-context"><b>${esc(tm?.name||'1:1 Athlete')}</b><span>${esc(s.name)}</span></div>
         <button type="button" class="btn ghost small" aria-label="Close session comment" onclick="closeCommentDrawer()">×</button></div>
-      <div class="comment-drawer-body">${blockDetail(s)}</div>
-      <div class="comment-composer"><button type="button" class="gif-button" title="GIF attachments coming soon">GIF</button>
-        <textarea id="note-${s.id}" aria-label="Session comment text" placeholder="Comment on ${esc(s.name)}">${esc(s.comment?.text||'')}</textarea>
-        <button class="btn primary" onclick="saveComment('${s.id}');closeCommentDrawer()">Send</button></div>
+      <div class="comment-drawer-body">${blockDetail(s)}<section class="comment-thread" aria-label="Coach comment history"><b>Coach comments · local only</b>${comments.map(c=>`<article><time>${esc(c.at?new Date(c.at).toLocaleString():'Earlier comment')}</time>${esc(c.text)}</article>`).join('')||'<p class="muted">No coach comments yet.</p>'}</section></div>
+      <p class="muted" id="commentSaveStatus" role="status" style="padding:0 12px">Saved on this device; athlete message delivery is not connected.</p>
+      <div class="comment-composer"><button type="button" class="gif-button" disabled title="GIF attachments are not connected">GIF</button>
+        <textarea id="note-${esc(s.id)}" maxlength="4000" aria-label="Session comment text" placeholder="Comment on ${esc(s.name)}"></textarea>
+        <button class="btn primary" data-comment-session="${esc(s.id)}" onclick="saveComment(this.dataset.commentSession)">Save comment</button></div>
     </div></div>`;
 }
 
@@ -946,9 +976,9 @@ function nutritionHtml(){ return CoachViews.nutritionHtml(); }
 function libraryTabs(){
   const tabs = [['programs','Programs'],['sessions','Sessions'],['exercises','Exercises'],['circuits','Circuits'],['prescriptions','Prescriptions']];
   return `<div class="lib-tabs" role="tablist">${tabs.map(([k,l]) => {
-    const off = k==='circuits' || k==='prescriptions';
+    const off = false;
     return `<button type="button" role="tab" ${off?'disabled':''} aria-selected="${ui.lib===k?'true':'false'}" class="${ui.lib===k?'on':''}" onclick="${off?'':'ui.lib=\''+k+'\';ui.cellMenu=null;render()'}">${l}</button>`;
-  }).join('')}<button type="button" title="Parent Calendars and Team Subscriptions">More⌄</button></div>`;
+  }).join('')}<button type="button" disabled title="Parent Calendars and Team Subscriptions are not connected">More⌄</button></div>`;
 }
 
 function programsListHtml(){
@@ -957,7 +987,7 @@ function programsListHtml(){
   const rows = list.map(p => {
     const weeks = Number(p.weeks)||1;
     return `<tr>
-      <td><input type="checkbox" aria-label="Select ${esc(p.name)}"></td>
+      <td><input type="checkbox" data-program-selection="${esc(p.id)}" aria-label="Select ${esc(p.name)}"></td>
       <td><div class="roster-person"><span class="team-mark">TH</span><div><button type="button" class="linkish" onclick="openProgram('${p.id}')">${esc(p.name)}</button><div class="subline">${weeks} week${weeks===1?'':'s'}</div></div></div></td>
       <td class="muted">${esc(p.difficulty||'Intermediate')}</td>
       <td class="muted">${esc(p.focus||'—')}</td>
@@ -967,48 +997,116 @@ function programsListHtml(){
       <td><div class="table-actions"><button class="action-glyph" title="Open grid" onclick="openProgram('${p.id}')">▣</button><button class="action-glyph" title="Assign" onclick="go('assign',{programId:'${p.id}'})">□</button><button class="action-glyph" title="Settings" onclick="openProgram('${p.id}');ui.programSettings=true;render()">⚙</button></div></td>
     </tr>`;
   }).join('');
-  return `<div class="table-toolbar"><div class="compact-filter"><select aria-label="Program scope"><option>My Programs</option><option>All Programs</option></select></div><div class="table-toolbar-right"><button class="table-icon-btn" title="Delete selected" disabled>⌫</button><button class="table-icon-btn" title="Duplicate selected">□</button><input class="table-search" aria-label="Search programs" value="${esc(ui.progSearch)}" oninput="ui.progSearch=this.value;render()" placeholder="Search"><button type="button" class="btn primary small" onclick="newProgram()">Create Program</button></div></div>
-    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th><input type="checkbox" aria-label="Select programs"></th><th>Title</th><th>Difficulty</th><th>Focus</th><th>Description</th><th>Team Usage</th><th>Created By</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Programs</div><h2>No programs yet</h2><p class="muted">Build a week×day grid, then assign it to a team.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newProgram()">Create program</button></div></div>'}`;
+  return `<div class="table-toolbar"><div class="compact-filter"><select aria-label="Program scope" disabled title="This workspace shows local coach programs"><option>My Programs</option></select></div><div class="table-toolbar-right"><button class="table-icon-btn" title="Delete selected" disabled>⌫</button><button class="table-icon-btn" title="Duplicate selected" onclick="duplicateSelectedPrograms()">□</button><input class="table-search" aria-label="Search programs" value="${esc(ui.progSearch)}" oninput="searchCoachLibrary(this,'progSearch')" placeholder="Search"><button type="button" class="btn primary small" onclick="newProgram()">Create Program</button></div></div><p class="muted" role="status">${esc(ui.programNotice||'')}</p>
+    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th><input type="checkbox" aria-label="Select programs" onchange="document.querySelectorAll('[data-program-selection]').forEach(el=>el.checked=this.checked)"></th><th>Title</th><th>Difficulty</th><th>Focus</th><th>Description</th><th>Team Usage</th><th>Created By</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Programs</div><h2>No matching programs</h2><p class="muted">Clear your search or create a week×day grid.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newProgram()">Create program</button></div></div>'}`;
 }
+function searchCoachLibrary(input,key){const value=input.value,cursor=input.selectionStart,label=input.getAttribute('aria-label');ui[key]=value;render();const next=document.querySelector(`[aria-label="${label}"]`);if(next){next.focus();next.setSelectionRange(cursor,cursor);}}
+function duplicateSelectedPrograms(){const ids=Array.from(document.querySelectorAll('[data-program-selection]:checked')).map(el=>el.dataset.programSelection);ids.forEach(id=>{const copy=L.clone(prog(id));copy.id=L.uid('prog');copy.name+=' (copy)';copy.createdAt=new Date().toISOString();S.programs.push(copy);});ui.programNotice=ids.length?`Duplicated ${ids.length} program(s). Session templates are shared; no athlete sessions were assigned.`:'Select at least one program to duplicate.';L.saveState(null,S);render();}
 
 function libraryHtml(){
   const tabs = libraryTabs();
   if (ui.lib === 'sessions') {
     const rows = (S.templates||[]).map(t => {
-      return `<tr data-template-id="${esc(t.id)}"><td><input type="checkbox" aria-label="Select ${esc(t.name)}"></td><td><button type="button" class="linkish" onclick="openSession('${t.id}')">${esc(t.name)}</button></td><td class="muted">${esc(S.coach?.name||'Coach')}</td><td class="muted">8/10/2026</td><td><button class="action-glyph" aria-label="Delete ${esc(t.name)}" title="Delete">⌫</button></td></tr>`;
+      const matches = sessionMatches(t,ui.sessionSearch);
+      const created = t.createdAt && Number.isFinite(Date.parse(t.createdAt)) ? new Date(t.createdAt).toLocaleDateString() : '—';
+      const draft = t.athleteTemplate ? `<div class="muted" style="font-size:11px;margin-top:4px">Strength draft: ${esc(t.athleteTemplate.title)} · local only <button type="button" class="linkish" onclick="openStrengthSession(this.closest('tr').dataset.templateId)">Continue editing</button></div>` : '';
+      return `<tr data-template-id="${esc(t.id)}" ${matches?'':'hidden'}><td><input type="checkbox" aria-label="Select ${esc(t.name)}" ${ui.sessionSelected[t.id]?'checked':''} onchange="ui.sessionSelected[this.closest('tr').dataset.templateId]=this.checked;updateSessionSelection()"></td><td><button type="button" class="linkish" onclick="openSession(this.closest('tr').dataset.templateId)">${esc(t.name)}</button>${draft}</td><td class="muted">${esc(S.coach?.name||'Coach')}</td><td class="muted">${esc(created)}</td><td><button class="action-glyph" aria-label="Duplicate ${esc(t.name)}" title="Duplicate" onclick="duplicateSessionTemplate(this.closest('tr').dataset.templateId)">⧉</button><button class="action-glyph" aria-label="Delete ${esc(t.name)}" title="Delete" onclick="deleteSessionTemplates([this.closest('tr').dataset.templateId])">⌫</button></td></tr>`;
     }).join('');
     return `${tabs}
-      <div class="table-toolbar"><div></div><div class="table-toolbar-right"><button class="table-icon-btn" disabled>⌫</button><input class="table-search" aria-label="Search sessions" placeholder="Search"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>
-      ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th><input type="checkbox" aria-label="Select sessions"></th><th>Title</th><th>Created By</th><th>Date Created</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>` : '<div class="empty-panel"><div class="eyebrow">Sessions</div><h2>No templates yet</h2><p class="muted">Create a session, then drop it into a program grid.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>'}`;
+      <div class="table-toolbar"><div id="sessionSelectionStatus" class="muted">${Object.values(ui.sessionSelected).filter(Boolean).length} selected</div><div class="table-toolbar-right"><button class="table-icon-btn" id="deleteSelectedSessions" aria-label="Delete selected sessions" ${Object.values(ui.sessionSelected).some(Boolean)?'':'disabled'} onclick="deleteSessionTemplates(Object.keys(ui.sessionSelected).filter(id=>ui.sessionSelected[id]))">⌫</button><input class="table-search" aria-label="Search sessions" placeholder="Search" value="${esc(ui.sessionSearch)}" oninput="filterSessionLibrary(this.value)"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>
+      <p class="muted" role="status">${esc(ui.sessionNotice)} ${(S.templateTrash||[]).length?`<button type="button" class="linkish" onclick="restoreSessionTemplates()">Restore deleted templates (${S.templateTrash.length})</button>`:''}</p>
+      ${rows ? `<div class="table-wrap"><table class="th-table data-table" id="sessionLibraryTable"><thead><tr><th><input id="selectVisibleSessions" type="checkbox" aria-label="Select visible sessions" onchange="selectVisibleSessions(this.checked)"></th><th>Title</th><th>Created By</th><th>Date Created</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div><p class="muted" id="sessionSearchStatus" role="status">${(S.templates||[]).filter(t=>sessionMatches(t,ui.sessionSearch)).length} sessions</p>` : '<div class="empty-panel"><div class="eyebrow">Sessions</div><h2>No templates yet</h2><p class="muted">Create a session, then drop it into a program grid.</p><div class="empty-actions"><button type="button" class="btn primary small" onclick="newTemplate()">Create Session Template</button></div></div>'}`;
   }
   if (ui.lib === 'exercises') {
     return `${tabs}${exercisesCatalogHtml()}`;
   }
+  if(['circuits','prescriptions'].includes(ui.lib))return `${tabs}${derivedLibraryHtml(ui.lib)}`;
   ui.lib = 'programs';
   return `${tabs}${programsListHtml()}`;
+}
+function derivedLibraryHtml(kind){const entries=[];(S.templates||[]).forEach(t=>(t.blocks||[]).forEach(b=>{if(kind==='circuits'&&['text','recovery','conditioning'].includes(b.type))entries.push({title:b.heading||'Circuit',detail:b.notes||b.planLine||b.type,template:t});if(kind==='prescriptions')(b.exercises||[]).forEach(e=>entries.push({title:e.name,detail:L.prescriptionLine(e),template:t}));}));return `<h2>${kind==='circuits'?'Circuits':'Prescriptions'}</h2><p class="muted">Derived from your existing coach session templates. Edit the source session to change these entries; this is not a separate native-strength library.</p><div class="table-wrap"><table class="th-table"><thead><tr><th>Title</th><th>Details</th><th>Source session</th></tr></thead><tbody>${entries.map(e=>`<tr><td>${esc(e.title)}</td><td style="white-space:pre-wrap">${esc(e.detail)}</td><td><button class="linkish" data-template-id="${esc(e.template.id)}" onclick="openSession(this.dataset.templateId)">${esc(e.template.name)}</button></td></tr>`).join('')||'<tr><td colspan="3">No entries yet. Create a coach session first.</td></tr>'}</tbody></table></div>`;}
+
+function sessionMatches(template,query){
+  return `${template.name} ${template.athleteTemplate?.title||''}`.toLowerCase().includes(String(query||'').trim().toLowerCase());
+}
+function filterSessionLibrary(query){
+  ui.sessionSearch=query;
+  document.querySelectorAll('#sessionLibraryTable tbody tr').forEach(row=>{row.hidden=!sessionMatches(tpl(row.dataset.templateId),query);});
+  const count=(S.templates||[]).filter(t=>sessionMatches(t,query)).length;
+  if($('sessionSearchStatus')) $('sessionSearchStatus').textContent=count?`${count} sessions`:'No matching sessions';
+  updateSessionSelection();
+}
+function updateSessionSelection(){
+  const selected=Object.keys(ui.sessionSelected).filter(id=>ui.sessionSelected[id]&&tpl(id));
+  if($('sessionSelectionStatus')) $('sessionSelectionStatus').textContent=`${selected.length} selected`;
+  if($('deleteSelectedSessions')) $('deleteSelectedSessions').disabled=!selected.length;
+  const visible=(S.templates||[]).filter(t=>sessionMatches(t,ui.sessionSearch));
+  const checked=visible.filter(t=>ui.sessionSelected[t.id]).length;
+  if($('selectVisibleSessions')){
+    $('selectVisibleSessions').checked=visible.length>0&&checked===visible.length;
+    $('selectVisibleSessions').indeterminate=checked>0&&checked<visible.length;
+  }
+}
+function selectVisibleSessions(checked){
+  (S.templates||[]).filter(t=>sessionMatches(t,ui.sessionSearch)).forEach(t=>{ui.sessionSelected[t.id]=checked;});
+  document.querySelectorAll('#sessionLibraryTable tbody tr').forEach(row=>{row.querySelector('input').checked=!!ui.sessionSelected[row.dataset.templateId];});
+  updateSessionSelection();
+}
+function duplicateSessionTemplate(id){
+  const source=tpl(id);if(!source) return;
+  const copy=L.duplicateTemplate(source);
+  S.templates.push(copy);ui.sessionNotice=`Created ${copy.name}. Existing programs and assignments are unchanged.`;
+  L.saveState(null,S);render();
+}
+function openStrengthSession(id){
+  const template=tpl(id);if(!template) return;
+  StrengthBuilder.open(template,()=>L.saveState(null,S),render);
+}
+function deleteSessionTemplates(ids){
+  const existing=[...new Set(ids)].filter(id=>tpl(id));
+  if(!existing.length) return;
+  const blocked=existing.filter(id=>{const usage=L.templateUsage(S,id);return usage.programs||usage.sessions;});
+  const allowed=existing.filter(id=>!blocked.includes(id));
+  if(!allowed.length){ui.sessionNotice='Templates used in programs or assigned sessions cannot be deleted. Remove those references first.';render();return;}
+  const names=allowed.map(id=>tpl(id).name).join(', ');
+  if(!confirm(`Delete ${allowed.length} unused template(s): ${names}? You can restore them from the session library.${blocked.length?` ${blocked.length} in-use template(s) will be kept.`:''}`)) return;
+  S.templateTrash=S.templateTrash||[];
+  allowed.forEach(id=>S.templateTrash.push({template:L.clone(tpl(id)),deletedAt:new Date().toISOString()}));
+  S.templates=S.templates.filter(t=>!allowed.includes(t.id));
+  allowed.forEach(id=>delete ui.sessionSelected[id]);
+  ui.sessionNotice=`Deleted ${allowed.length} unused template(s).${blocked.length?` Kept ${blocked.length} in-use template(s).`:''}`;
+  L.saveState(null,S);render();
+}
+function restoreSessionTemplates(){
+  const entries=S.templateTrash||[];
+  const restore=entries.filter(entry=>!tpl(entry.template.id));
+  restore.forEach(entry=>S.templates.push(entry.template));
+  const restored=new Set(restore.map(entry=>entry.template.id));
+  S.templateTrash=entries.filter(entry=>!restored.has(entry.template.id));
+  ui.sessionNotice=`Restored ${restore.length} template(s).`;
+  L.saveState(null,S);render();
 }
 
 function exercisesCatalogHtml(){
   const q = String(ui.exCatalogSearch||'').trim().toLowerCase();
   const list = (S.exercises||[]).filter(e => !q || String(e.name).toLowerCase().includes(q) || String(e.category||'').toLowerCase().includes(q));
-  const rows = list.map(e => `<tr><td><b>${esc(e.name)}</b></td><td class="muted">${e.builtIn?'EXERCISE':'CUSTOM'}</td><td class="muted">${esc(e.category||'—')}</td><td class="muted">—</td><td class="muted">—</td></tr>`).join('');
+  const rows = list.map(e => `<tr><td><button type="button" class="linkish" data-exercise-id="${esc(e.id)}" onclick="openCatalogExercise(this.dataset.exerciseId)">${esc(e.name)}</button></td><td class="muted">${e.builtIn?'EXERCISE':'CUSTOM'}</td><td class="muted">${esc(e.category||'—')}</td><td class="muted">${/^https?:\/\//.test(e.videoUrl||'')?`<a href="${esc(e.videoUrl)}" target="_blank" rel="noopener noreferrer">Video</a>`:'—'}</td><td class="muted">${e.builtIn?'THE Hybrid':esc(S.coach?.name||'Coach')}</td></tr>`).join('');
   return `<div class="toolbar-row">
       <div class="field"><label>Search exercises</label>
-        <input value="${esc(ui.exCatalogSearch||'')}" oninput="ui.exCatalogSearch=this.value;render()" placeholder="Squat, row…"></div>
+        <input aria-label="Search exercises" value="${esc(ui.exCatalogSearch||'')}" oninput="searchCoachLibrary(this,'exCatalogSearch')" placeholder="Squat, row…"></div>
       <button type="button" class="btn primary small" onclick="addCustomExercise()">New exercise</button>
     </div>
     <p class="muted" style="margin-bottom:8px">${list.length} exercise${list.length===1?'':'s'} · 120-library variant search in session builder</p>
-    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th>Title</th><th>Type</th><th>Tags</th><th>Video</th><th>Created By</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Exercises</div><h2>No matches</h2><p class="muted">Try another search, or add a custom exercise.</p></div>'}`;
+    ${rows ? `<div class="table-wrap"><table class="th-table data-table"><thead><tr><th>Title</th><th>Type</th><th>Tags</th><th>Video</th><th>Created By</th></tr></thead><tbody>${rows}</tbody></table></div><div class="table-foot"><span class="rows-per-page">Rows per page: 100</span><span>1–${list.length} of ${list.length}</span></div>` : '<div class="empty-panel"><div class="eyebrow">Exercises</div><h2>No matches</h2><p class="muted">Try another search, or add a custom exercise.</p></div>'}${catalogExerciseDialog()}`;
 }
 
 function addCustomExercise(){
-  const name = prompt('Exercise name');
-  if (!name || !String(name).trim()) return;
-  const category = prompt('Category (optional)', 'Custom') || 'Custom';
-  S.exercises = S.exercises || [];
-  S.exercises.push({ id: L.uid('ex'), name: String(name).trim(), category: String(category).trim(), builtIn: false, source: 'coach-custom' });
-  persist(); render();
+  ui.catalogEdit={id:null};render();
 }
+function openCatalogExercise(id){ui.catalogEdit={id};render();}
+function closeCatalogExercise(){ui.catalogEdit=null;render();}
+function catalogExerciseDialog(){if(!ui.catalogEdit)return '';const e=S.exercises.find(e=>e.id===ui.catalogEdit.id)||{};return `<div class="picker-overlay" onclick="if(event.target===this)closeCatalogExercise()"><div class="picker-panel" role="dialog" aria-label="Exercise details"><div class="row"><h2>${e.id?'Exercise details':'New exercise'}</h2><button class="btn small" aria-label="Close exercise details" onclick="closeCatalogExercise()">×</button></div><p class="muted">Local catalog metadata. Existing session prescriptions are unchanged.${e.builtIn?' Built-in exercise identity is read-only.':''}</p><div class="field"><label for="catalogName">Name</label><input id="catalogName" maxlength="150" ${e.builtIn?'readonly':''} value="${esc(e.name||'')}"></div><div class="field"><label for="catalogCategory">Category</label><input id="catalogCategory" maxlength="100" value="${esc(e.category||'Custom')}"></div><div class="field"><label for="catalogVideo">Video URL (optional)</label><input id="catalogVideo" type="url" value="${esc(e.videoUrl||'')}"></div><div class="field"><label for="catalogNotes">Coach notes</label><textarea id="catalogNotes" maxlength="4000">${esc(e.coachNotes||'')}</textarea></div><p id="catalogError" role="status"></p><button class="btn primary" onclick="saveCatalogExercise()">Save details</button></div></div>`;}
+function saveCatalogExercise(){const name=$('catalogName').value.trim(),video=$('catalogVideo').value.trim(),e=S.exercises.find(e=>e.id===ui.catalogEdit.id);if(!name){$('catalogError').textContent='Enter an exercise name.';return;}if(video){try{const url=new URL(video);if(!['http:','https:'].includes(url.protocol))throw Error();}catch(_){$('catalogError').textContent='Enter an HTTP or HTTPS video URL.';return;}}if(S.exercises.some(x=>x.id!==e?.id&&x.name.toLowerCase()===name.toLowerCase())){$('catalogError').textContent='An exercise with this name already exists.';return;}const entry=e||{id:L.uid('ex'),builtIn:false,source:'coach-custom'};Object.assign(entry,{name,category:$('catalogCategory').value.trim()||'Custom',videoUrl:video,coachNotes:$('catalogNotes').value});if(!e)S.exercises.push(entry);L.saveState(null,S);ui.catalogEdit=null;ui.exCatalogSearch='';render();}
 
 function newTemplate(){
   const t = L.makeTemplate({
@@ -1017,6 +1115,7 @@ function newTemplate(){
     blocks:[L.makeBlock({ heading:'Strength', type:'strength', category:'Strength/Power', scoring:'weight', exercises:[L.makeExercise({ name:'Back Squat', exerciseId:'core-back-squat', sets:3, reps:'5', load:'', metric:'Weight' })] })],
   });
   S.templates.push(t);
+  t.createdAt=new Date().toISOString();
   persist();
   openSession(t.id);
 }
@@ -1130,18 +1229,7 @@ function saveCellAsTemplate(week, day){
   const p = prog(ui.programId); if (!p) return;
   const tid = (p.cells||{})[L.cellKey(week, day)];
   const src = tpl(tid); if (!src) return;
-  const fresh = L.makeTemplate({
-    name: src.name + ' (copy)',
-    coachInstructions: src.coachInstructions || '',
-    blocks: (src.blocks||[]).map(b => {
-      const { id, letter, ...rest } = b;
-      const exercises = (b.exercises||[]).map(e => {
-        const { id:eid, ...er } = e;
-        return L.makeExercise(er);
-      });
-      return L.makeBlock({ ...rest, exercises });
-    }),
-  });
+  const fresh = L.duplicateTemplate(src);
   S.templates.push(fresh);
   ui.cellMenu = null;
   persist();
@@ -1159,8 +1247,12 @@ function setProgramSettingsTab(tab){ ui.programSettingsTab=tab;render(); }
 function saveProgramSettings(){
   const p=prog(ui.programId);if(!p)return;
   const name=$('program-settings-name'),weeks=$('program-settings-weeks'),focus=$('program-settings-focus'),difficulty=$('program-settings-difficulty'),description=$('program-settings-description');
-  if(name&&name.value.trim())p.name=name.value.trim();
-  if(weeks){const next=Math.max(1,Math.min(52,Number(weeks.value)||1));while(Number(p.weeks||1)<next)L.addProgramWeek(p);p.weeks=next;}
+  if(!name?.value.trim()){$('program-settings-error').textContent='Enter a program name.';return;}
+  try{CoachTools.resizeProgram(p,weeks.value);}catch(e){
+    if(e.message.startsWith('Later weeks')&&confirm('Shortening this program removes sessions from later weeks. Assigned athlete sessions are preserved. Continue?'))CoachTools.resizeProgram(p,weeks.value,true);
+    else{$('program-settings-error').textContent=e.message;return;}
+  }
+  p.name=name.value.trim();
   if(focus)p.focus=focus.value;if(difficulty)p.difficulty=difficulty.value;if(description)p.description=description.value;
   persist();ui.programSettings=false;render();
 }
@@ -1171,11 +1263,11 @@ function programSettingsHtml(){
   const body=tab==='general'?`<div class="field"><label>Name</label><input id="program-settings-name" value="${esc(p.name)}"></div>
     <div class="field"><label>Program Length (weeks)</label><input id="program-settings-weeks" type="number" min="1" max="52" value="${Number(p.weeks)||1}"></div>
     <div class="field"><label>Sport/Focus Interest</label><input id="program-settings-focus" value="${esc(p.focus||'')}"></div>
-    <div class="field"><label>Program Difficulty</label><select id="program-settings-difficulty"><option>Beginner</option><option ${(p.difficulty||'Intermediate')==='Intermediate'?'selected':''}>Intermediate</option><option>Advanced</option></select></div>
+    <div class="field"><label>Program Difficulty</label><select id="program-settings-difficulty">${['Beginner','Intermediate','Advanced'].map(v=>`<option ${(p.difficulty||'Intermediate')===v?'selected':''}>${v}</option>`).join('')}</select></div>
     <div class="field"><label>Description</label><textarea id="program-settings-description">${esc(p.description||'')}</textarea></div>
-    <div class="field"><label>Logo Image</label><div class="empty-panel" style="text-align:center">300 × 300</div></div>
+    <div class="field"><label>Logo Image</label><div class="empty-panel" style="text-align:center">Logo upload is not connected.</div></div><p id="program-settings-error" role="status" class="muted"></p>
     <button class="btn primary block" style="margin-top:14px" onclick="saveProgramSettings()">Save & Close</button>`
-    :`<div class="empty-panel"><h2>Access Codes</h2><p class="muted">Athletes can enter an access code in the mobile app to join this program.</p><button class="btn primary small" style="margin-top:14px">Create New</button></div>`;
+    :`<div class="empty-panel"><h2>Access Codes</h2><p class="muted">Secure program joining is not connected. Use team assignment for existing roster members.</p><button class="btn primary small" disabled style="margin-top:14px">Create New</button></div>`;
   return `<div class="profile-overlay" onclick="if(event.target===this)closeProgramSettings()"><aside class="profile-drawer" role="dialog" aria-label="Program settings"><div class="profile-head"><div style="flex:1"><b>${esc(p.name)}</b><div class="subline">Program settings</div></div><button class="btn ghost small" onclick="closeProgramSettings()">×</button></div><div class="profile-tabs"><button class="${tab==='general'?'on':''}" onclick="setProgramSettingsTab('general')">General</button><button class="${tab==='access'?'on':''}" onclick="setProgramSettingsTab('access')">Access Codes</button></div><div class="profile-body">${body}</div></aside></div>`;
 }
 
@@ -1192,14 +1284,23 @@ function templatePickerHtml(){
   const pick = ui.cellPick;
   if (!pick || (pick.mode !== 'set' && pick.mode !== 'copy' && pick.mode !== 'move')) return '';
   const list = (S.templates||[]).map(t =>
-    `<button type="button" class="picker-item" onclick="placeCellTemplate('${t.id}')"><span>${esc(t.name)}</span><span class="muted">${(t.blocks||[]).length} blocks</span></button>`
+    `<button type="button" class="picker-item" data-program-template="${esc(t.id)}" ${sessionMatches(t,pick.q)?'':'hidden'} onclick="placeCellTemplate(this.dataset.programTemplate)"><span>${esc(t.name)}${t.athleteTemplate?'<small class="muted" style="display:block">Uses original coach session · strength draft is local only</small>':''}</span><span class="muted">${(t.blocks||[]).length} blocks</span></button>`
   ).join('');
   return `<div class="picker-overlay" onclick="if(event.target===this)closeCellPick()">
     <div class="picker-panel" role="dialog" aria-label="Choose session template">
       <div class="row"><b>Add from library</b><button type="button" class="btn ghost small" onclick="closeCellPick()">Close</button></div>
       <p class="muted" style="margin-top:8px">Week ${pick.week} · Day ${pick.day}</p>
-      <div class="picker-list">${list || '<div class="muted">No session templates.</div>'}</div>
+      <input class="table-search" style="width:100%;margin-bottom:12px" aria-label="Search program sessions" placeholder="Search sessions…" value="${esc(pick.q||'')}" oninput="filterProgramLibrary(this.value)">
+      <div class="picker-list" id="programLibraryResults">${list || '<div class="muted">No session templates.</div>'}</div><p class="muted" id="programLibraryStatus" role="status">${(S.templates||[]).filter(t=>sessionMatches(t,pick.q)).length} sessions</p>
     </div></div>`;
+}
+
+function filterProgramLibrary(query){
+  if(!ui.cellPick) return;
+  ui.cellPick.q=query;
+  document.querySelectorAll('[data-program-template]').forEach(button=>{button.hidden=!sessionMatches(tpl(button.dataset.programTemplate),query);});
+  const count=(S.templates||[]).filter(t=>sessionMatches(t,query)).length;
+  if($('programLibraryStatus')) $('programLibraryStatus').textContent=count?`${count} sessions`:'No matching sessions';
 }
 
 function programCellHtml(p, week, day){
@@ -1253,7 +1354,7 @@ function programHtml(){
     <div class="prog-toolbar" style="margin-top:12px">
       <input class="prog-title" value="${esc(p.name)}" aria-label="Program title" oninput="prog(ui.programId).name=this.value;persist()">
       <div class="prog-icons">
-        <button type="button" class="prog-icon" title="Preview (coming soon)" disabled>${progIcon('eye')}</button>
+        <button type="button" class="prog-icon" title="Preview program" onclick="ui.programPreview=true;render()">${progIcon('eye')}</button>
         <button type="button" class="prog-icon" title="Save to folder (coming soon)" disabled>${progIcon('folder')}</button>
         <button type="button" class="prog-icon" title="Program settings" onclick="ui.programSettings=true;ui.programSettingsTab='general';render()">${progIcon('gear')}</button>
         <button type="button" class="btn small" onclick="go('assign',{programId:ui.programId})">Assign</button>
@@ -1265,8 +1366,9 @@ function programHtml(){
       <button type="button" class="btn" onclick="addWeek()">Add week</button>
       <span class="muted">Empty cells stay blank — click to place a session template.</span>
     </div>
-    ${templatePickerHtml()}${programSettingsHtml()}`;
+    ${templatePickerHtml()}${programSettingsHtml()}${programPreviewHtml(p)}`;
 }
+function programPreviewHtml(p){if(!ui.programPreview)return '';const days=Object.entries(p.cells||{}).filter(([,id])=>tpl(id)).sort(([a],[b])=>{const [aw,ad]=a.split('-').map(Number),[bw,bd]=b.split('-').map(Number);return aw-bw||ad-bd;});return `<div class="profile-overlay" onclick="if(event.target===this){ui.programPreview=false;render()}"><aside class="profile-drawer" role="dialog" aria-label="Program preview"><div class="profile-head"><b style="flex:1">${esc(p.name)}</b><button class="btn small" aria-label="Close program preview" onclick="ui.programPreview=false;render()">×</button></div><div class="profile-body"><p class="muted">Original coach sessions, not local native strength drafts. No athlete logs or assignments are created.</p>${days.map(([key,id])=>{const t=tpl(id),[week,day]=key.split('-');return `<h2>Week ${week} · Day ${day}</h2><h3>${esc(t.name)}</h3><p style="white-space:pre-wrap">${esc(t.coachInstructions||'')}</p>${blockDetail(t)}`;}).join('')||'<p>No sessions placed in this program.</p>'}</div></aside></div>`;}
 
 function tplBlocks(){ return tpl(ui.templateId)?.blocks || []; }
 
@@ -1766,7 +1868,7 @@ function sessionHtml(){
   return `<div class="fade-in"><button type="button" class="btn ghost small page-back" onclick="go('library',{lib:'sessions'})">← Back to sessions</button>
     <div class="builder-top" style="margin-top:12px">
       <input class="builder-title" value="${esc(t.name)}" aria-label="Session title" oninput="tpl(ui.templateId).name=this.value;persist()">
-      <div class="builder-actions"><span class="pill">Saved locally</span></div>
+      <div class="builder-actions"><button class="btn primary small" onclick="openStrengthSession(ui.templateId)">${t.athleteTemplate?'Continue strength draft':'Strength builder'}</button><span class="pill">Saved locally</span></div>
     </div>
     <div class="card instructions-box">
       <label>Coach instructions</label>
@@ -1793,23 +1895,30 @@ function coachChrome(body){
     ['teams','Teams','teams',false],
     ['library','Library','library',false],
     ['nutrition','Nutrition','nutrition',false],
-    ['analytics','Analytics','chart',true],
-    ['gym','Gym Tools','gym',true],
+    ['analytics','Analytics','chart',false],
+    ['gym','Gym Tools','gym',false],
   ];
   const navHtml = nav.map(([k,l,ic,off]) => {
     if (off) return `<span class="nav-soon" title="${esc(l)}">${icon(ic)}<span class="nav-label">${esc(l)}</span></span>`;
-    return `<button type="button" class="${navActive(k)?'on':''}" data-nav="${k}" title="${esc(l)}" onclick="go('${k}')">${icon(ic)}<span class="nav-label">${esc(l)}</span></button>`;
+    return `<button type="button" class="${navActive(k)?'on':''}" ${navActive(k)?'aria-current="page"':''} data-nav="${k}" title="${esc(l)}" onclick="go('${k}')">${icon(ic)}<span class="nav-label">${esc(l)}</span></button>`;
   }).join('');
   const initials = String(S.coach?.name||'D').slice(0,1).toUpperCase();
   const hasRail = ui.view === 'home';
   const immersiveCalendar = ui.view === 'athlete' || ui.view === 'team';
   const welcome = S.coach?.name ? `Welcome back, Coach ${esc(S.coach.name)}` : 'Welcome back';
   const headerLine = ui.view === 'home' ? welcome : `${welcome} · ${esc(headerTitle())}`;
-  return `<aside class="coach-side coach-rail-slim" aria-label="Coach navigation">
-    <div class="coach-brand"><div class="mark">H</div><div><b>THE Hybrid</b><div class="sub">hybrid S&C · coach workspace</div></div></div>
+  return `<a class="skip-link" href="#coachMain">Skip to coach content</a>${ui.sidebarOpen?'<button class="sidebar-scrim" aria-label="Dismiss coach navigation" onclick="toggleCoachSidebar(false)"></button>':''}<aside id="coachNavigation" class="coach-side coach-rail-slim${ui.sidebarOpen?' is-open':''}" aria-label="Coach navigation" ${ui.sidebarOpen?'role="dialog" aria-modal="true"':''}>
+    <button type="button" class="sidebar-close" aria-label="Close coach navigation" onclick="toggleCoachSidebar(false)">×</button>
+    <div class="coach-brand"><div class="mark">H</div><div><b>THE Hybrid</b><div class="sub">hybrid S&C · Coach workspace</div></div></div>
     <nav>${navHtml}</nav>
+    <section class="coach-side-section" aria-label="Coach management"><h2>Workspace tools</h2>
+      <button type="button" class="coach-side-action" disabled title="Assistant management is not connected">${icon('users')}<span>Assistants</span><small>Not connected</small></button>
+      <button type="button" class="coach-side-action" disabled title="Athlete messaging is not connected">${icon('msg')}<span>Messages</span><small>Not connected</small></button>
+      <button type="button" class="coach-side-action" disabled title="Notifications are not connected">${icon('bell')}<span>Notifications</span><small>Not connected</small></button>
+    </section>
     <div class="coach-side-foot">
-      <span class="nav-soon" title="Coming soon">${icon('support')}<span class="nav-label">Support</span></span>
+      <button type="button" class="coach-profile-link" aria-label="Coach settings" onclick="go('account')"><span class="coach-avatar">${initials}</span><span><strong>${esc(S.coach?.name||'Coach')}</strong><small>Profile & settings</small></span></button>
+      <button type="button" class="coach-side-action" disabled title="Support service is not connected">${icon('support')}<span>Support</span><small>Not connected</small></button>
       <a class="btn small block dev-tool" href="https://thehybridsystem.netlify.app/" target="_blank" rel="noopener noreferrer" title="Open athlete app">Open athlete app</a>
       <button type="button" class="dev-tool" onclick="pushCloudNow()" title="Push cloud now">Push cloud now</button>
       <button type="button" class="dev-tool" onclick="exportBridgeFile()" title="Export bridge file">Export bridge file</button>
@@ -1817,18 +1926,11 @@ function coachChrome(body){
       <button type="button" class="dev-tool" onclick="signOut()" title="Sign out">Sign out</button>
     </div>
   </aside>
-  <div class="coach-workspace${immersiveCalendar?' immersive':''}">
-    ${immersiveCalendar?'':`<header class="coach-header">
-      <div class="coach-header-title"><span class="welcome-h">${headerLine}</span></div>
-      <div class="coach-header-actions">
-        <button type="button" class="btn-assist" disabled title="Coming soon">Manage Assistants</button>
-        <span class="icon-btn" title="Coming soon">${icon('msg')}<span class="badge">·</span></span>
-        <span class="icon-btn" title="Coming soon">${icon('bell')}</span>
-        <div class="coach-avatar" title="Coach profile">${initials}</div>
-      </div>
-    </header>`}
+  <div class="coach-workspace${immersiveCalendar?' immersive':''}" ${ui.sidebarOpen?'inert':''}>
+    <div class="mobile-navigation"><button id="coachNavigationToggle" type="button" class="btn" aria-label="Open coach navigation" aria-controls="coachNavigation" aria-expanded="${!!ui.sidebarOpen}" onclick="toggleCoachSidebar(true)">${icon('library')}<span>Menu</span></button><b>${esc(ui.view==='home'?'Coach Home':headerTitle())}</b></div>
+    <div class="workspace-context"><span class="workspace-location">${esc(ui.view==='home'?'Coach Home':headerTitle())}</span><span>${welcome}</span></div>
     <div class="coach-body ${hasRail?'has-rail':''}">
-      <main class="coach-main">${body}</main>
+      <main id="coachMain" class="coach-main" tabindex="-1">${body}</main>
       ${hasRail?`<aside class="coach-rail" aria-label="Programming status">${needsHtml()}</aside>`:''}
     </div>
   </div>`;
@@ -1873,6 +1975,7 @@ function growTextAreas(){
 }
 
 function render(){
+  CoachTools.init({ L, S, ui, esc, render });
   const acc = account();
   $('gate').classList.add('hidden');
   $('coachApp').classList.add('hidden');
@@ -1891,8 +1994,17 @@ function render(){
   else if (ui.view==='session') body = sessionHtml();
   else if (ui.view==='assign') body = assignHtml();
   else if (ui.view==='nutrition') body = nutritionHtml();
+  else if (ui.view==='analytics') body = CoachTools.analyticsHtml();
+  else if (ui.view==='gym') body = CoachTools.gymHtml();
+  else if (ui.view==='account') body = CoachTools.accountHtml();
   else body = feedHtml();
   $('coachApp').innerHTML = coachChrome(body);
+  CoachTools.afterRender();
+  const dialog=Array.from($('coachApp').querySelectorAll('[role="dialog"]')).at(-1);
+  const dialogKey=dialog?.getAttribute('aria-label')||'';
+  if(dialog){dialog.setAttribute('aria-modal','true');dialog.setAttribute('tabindex','-1');if(ui.activeDialog!==dialogKey)(dialog.querySelector('button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])')||dialog).focus();}
+  ui.activeDialog=dialogKey;
+  if (ui.view === 'library' && ui.lib === 'sessions') updateSessionSelection();
   if (ui.view === 'session') {
     growTextAreas();
     initBlockDrag();
@@ -1901,6 +2013,9 @@ function render(){
 }
 
 document.addEventListener('click', function coachKebabDismiss(ev) {
+  if(ui.homeCalendarOpen && !ev.target?.closest?.('.home-date-popover,[aria-label="Choose date"]')){
+    ui.homeCalendarOpen=false;document.querySelector('.home-date-popover')?.remove();
+  }
   if (!ui.cellMenu && !ui.chipMenu) return;
   if (ev.target && ev.target.closest && ev.target.closest('.kebab-menu, .kebab-btn')) return;
   let changed = false;
@@ -1908,6 +2023,32 @@ document.addEventListener('click', function coachKebabDismiss(ev) {
   if (ui.chipMenu) { ui.chipMenu = null; changed = true; }
   if (changed) render();
 });
+document.addEventListener('keydown',function coachReviewEscape(ev){
+  if(ev.key==='Tab'){
+    const dialog=Array.from($('coachApp').querySelectorAll('[role="dialog"]')).at(-1);
+    if(dialog){const controls=Array.from(dialog.querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),a[href]')).filter(el=>el.getClientRects().length&&!el.hidden);
+      const first=controls[0],last=controls.at(-1);
+      if(!first){ev.preventDefault();dialog.focus();}
+      else if(ev.shiftKey&&(!dialog.contains(document.activeElement)||document.activeElement===first)){ev.preventDefault();last.focus();}
+      else if(!ev.shiftKey&&(!dialog.contains(document.activeElement)||document.activeElement===last)){ev.preventDefault();first.focus();}
+    }
+  }
+  if(ev.key!=='Escape')return;
+  if(ui.commentDrawer){ev.preventDefault();closeCommentDrawer();}
+  else if(ui.homeCalendarOpen){ev.preventDefault();ui.homeCalendarOpen=false;document.querySelector('.home-date-popover')?.remove();document.querySelector('[aria-label="Choose date"]')?.focus();}
+  else if(ui.catalogEdit){ev.preventDefault();closeCatalogExercise();}
+  else if(ui.calendarPreview){ev.preventDefault();CoachViews.closeCalendarPreview();}
+  else if(ui.programPreview){ev.preventDefault();ui.programPreview=false;render();}
+  else if(ui.programSettings){ev.preventDefault();closeProgramSettings();}
+  else if(ui.libPick){ev.preventDefault();ui.libPick=null;render();}
+  else if(ui.cellPick){ev.preventDefault();closeCellPick();}
+  else if(ui.athleteProfileId){ev.preventDefault();CoachViews.closeAthleteProfile();}
+  else if(ui.teamSettingsId){ev.preventDefault();CoachViews.closeTeamSettings();}
+  else if(ui.teamInviteId){ev.preventDefault();CoachViews.closeTeamInvite();}
+  else if(ui.createTeam){ev.preventDefault();CoachViews.closeCreateTeam();}
+  else if(ui.sidebarOpen){ev.preventDefault();toggleCoachSidebar(false);}
+});
+window.matchMedia('(max-width:980px)').addEventListener('change',function(){if(ui.sidebarOpen){ui.sidebarOpen=false;render();}});
 
 window.go=go; window.signOut=signOut; window.resetDemo=resetDemo; window.tryLogin=tryLogin;
 window.saveComment=saveComment; window.toggleCard=toggleCard;
@@ -1929,6 +2070,7 @@ window.exportBridgeFile=exportBridgeFile;
 window.bindMyCloudIdToAthlete=bindMyCloudIdToAthlete;
 window.pushCloudNow=pushCloudNow;
 CoachViews.init({ L, S, ui, persist, esc, go, render, $, tpl, prog, ses, athleteBy, team });
+CoachTools.init({ L, S, ui, esc, render });
 render();
 (async function coachAuthBoot(){
   try {

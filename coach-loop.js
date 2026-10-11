@@ -381,9 +381,10 @@
 
   function feedMetrics(session) {
     const prog = blockProgress(session);
-    const intensity = intensityPct(session);
-    const minutes = session.minutes == null || session.minutes === '' ? null : num(session.minutes);
-    const readiness = session.readiness == null || session.readiness === '' ? null : num(session.readiness);
+    const recorded = (value) => value == null || value === '' || !Number.isFinite(Number(value)) ? null : Number(value);
+    const intensity = recorded(session.intensity);
+    const minutes = recorded(session.minutes);
+    const readiness = recorded(session.readiness);
     return {
       blocksDone: prog.done,
       blocksTotal: prog.total,
@@ -606,6 +607,41 @@
       name: partial.name || 'Untitled session',
       coachInstructions: partial.coachInstructions || '',
       blocks: decorateBlocks((partial.blocks || []).map(makeBlock)),
+    };
+  }
+
+  function duplicateTemplate(source) {
+    const copy = makeTemplate({
+      name: source.name + ' (copy)',
+      coachInstructions: source.coachInstructions || '',
+      blocks: (source.blocks || []).map((block) => ({
+        ...clone(block), id: uid('blk'),
+        exercises: (block.exercises || []).map((exercise) => ({ ...clone(exercise), id: uid('ex') })),
+      })),
+    });
+    copy.createdAt = new Date().toISOString();
+    if (source.athleteTemplate) {
+      copy.athleteTemplate = clone(source.athleteTemplate);
+      copy.athleteTemplate.id = copy.id;
+      copy.athleteTemplate.title += ' (copy)';
+      const groups = new Map();
+      copy.athleteTemplate.blocks.forEach((block) => {
+        block.id = uid('native');
+        if (block.groupId) {
+          if (!groups.has(block.groupId)) groups.set(block.groupId, uid('ss'));
+          block.groupId = groups.get(block.groupId);
+        }
+      });
+      if (source.athleteCatalog) copy.athleteCatalog = clone(source.athleteCatalog);
+      copy.athleteConversionWarnings = clone(source.athleteConversionWarnings || []);
+    }
+    return copy;
+  }
+
+  function templateUsage(state, templateId) {
+    return {
+      programs: (state.programs || []).filter((program) => Object.values(program.cells || {}).includes(templateId)).length,
+      sessions: (state.sessions || []).filter((session) => session.templateId === templateId).length,
     };
   }
 
@@ -852,6 +888,10 @@
   }
 
   function addCalendarSession(state, opts) {
+    if (!(state.athletes || []).some((athlete) => athlete.id === opts.athleteId)) throw new Error('Choose a valid athlete');
+    const date = String(opts.date || '');
+    const parsed = /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(date + 'T00:00:00Z') : null;
+    if (!parsed || !Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) throw new Error('Choose a valid session date');
     const template = (state.templates || []).find((t) => t.id === opts.templateId);
     if (!template) throw new Error('template not found');
     const exists = (state.sessions || []).some(
@@ -933,6 +973,7 @@
     const horizon = addDays(start, 21);
     const athletes = state.athletes || [];
     const needAthletes = athletes.filter((a) => {
+      if (a.status === 'archived' || a.status === 'invited') return false;
       const inHorizon = (state.sessions || []).filter(
         (s) =>
           s.athleteId === a.id &&
@@ -1512,6 +1553,8 @@
     makeExercise,
     makeBlock,
     makeTemplate,
+    duplicateTemplate,
+    templateUsage,
     instantiateSession,
     logSet,
     logSetArrays,

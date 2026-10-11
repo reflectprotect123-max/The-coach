@@ -19,7 +19,7 @@ if (!html.includes('coach-shell')) throw new Error('coach.html missing R0 coach-
 if (!html.includes('--coach-main-bg:#f4f6f8') && !html.includes('--coach-main-bg:#ffffff')) {
   throw new Error('coach.html missing light main pane tokens');
 }
-if (!html.includes('Manage Assistants')) throw new Error('coach.html missing header actions');
+if (!html.includes('aria-label="Coach management"') || !html.includes('Assistant management is not connected')) throw new Error('coach.html missing sidebar management controls');
 if (!html.includes('My Athletes')) throw new Error('coach.html missing athletes nav label');
 if (!html.includes('Analytics')) throw new Error('coach.html missing deferred Analytics nav');
 if (/TrainHeroic|Train HYBRD|trainheroic/i.test(html)) {

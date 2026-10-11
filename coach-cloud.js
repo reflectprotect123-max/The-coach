@@ -119,6 +119,7 @@
       .maybeSingle();
     if (existing.error) throw existing.error;
     if (existing.data && existing.data.id) {
+      if (existing.data.state === 'completed') return {id:existing.data.id,skipped:true};
       const patch = {
         state: row.state,
         scheduled_date: row.scheduled_date,
@@ -129,13 +130,13 @@
         patch.resolved_snapshot = row.resolved_snapshot;
         patch.published_at = row.published_at;
       }
-      const upd = await sb.from('assigned_session').update(patch).eq('id', existing.data.id);
+      const upd = await sb.from('assigned_session').update(patch).eq('id', existing.data.id).neq('state','completed').select('id').maybeSingle();
       if (upd.error) throw upd.error;
-      return existing.data.id;
+      return {id:existing.data.id,skipped:!upd.data};
     }
     const ins = await sb.from('assigned_session').insert(row).select('id').single();
     if (ins.error) throw ins.error;
-    return ins.data && ins.data.id;
+    return {id:ins.data && ins.data.id,skipped:false};
   }
 
   async function pushPublished(state, opts) {
@@ -149,11 +150,13 @@
     }
 
     const sessions = (state.sessions || []).filter((s) => {
+      if(s.status==='completed'||s.status==='active')return false;
       if (opts.sessionIds && opts.sessionIds.length) return opts.sessionIds.indexOf(s.id) >= 0;
       return !!s.published;
     });
 
     let pushed = 0;
+    let skipped = 0;
     const errors = [];
     let lastAthlete = null;
     for (const session of sessions) {
@@ -185,8 +188,10 @@
         coach_session_key: session.id,
       };
       try {
-        await upsertAssigned(row);
-        pushed++;
+        const saved=await upsertAssigned(row);
+        if(!saved.id)throw new Error('Cloud publish returned no assignment id');
+        session.cloudAssignedId=saved.id;
+        if(saved.skipped)skipped++;else pushed++;
       } catch (e) {
         errors.push({ sessionId: session.id, error: String(e.message || e) });
       }
@@ -198,18 +203,20 @@
     status.lastError = errors.length ? errors[0].error : '';
     status.lastErrors = errors;
     status.lastAthleteName = (lastAthlete && lastAthlete.name) || '';
-    return { ok: errors.length === 0, pushed: pushed, errors: errors };
+    return { ok: errors.length === 0, pushed: pushed, skipped:skipped, errors: errors };
   }
 
   async function unpublishSession(state, session) {
     if (!session || !session.cloudAssignedId) return { ok: true, skipped: true };
+    if(session.status==='completed'||session.status==='active')return {ok:false,reason:'logged_history_protected'};
     if (!(await isSignedIn())) return { ok: false, reason: 'auth_required' };
     const sb = client();
     const res = await sb
       .from('assigned_session')
       .update({ state: 'unpublished' })
-      .eq('id', session.cloudAssignedId);
+      .eq('id', session.cloudAssignedId).neq('state','completed').select('id').maybeSingle();
     if (res.error) return { ok: false, error: res.error.message };
+    if(!res.data)return {ok:false,reason:'assignment_missing_or_completed'};
     session.published = false;
     return { ok: true };
   }
@@ -239,7 +246,7 @@
     for (const row of res.data || []) {
       const session = (state.sessions || []).find((s) => s.cloudAssignedId === row.id);
       if (!session) continue;
-      if (row.state === 'completed' && session.status !== 'active') {
+      if (row.state === 'completed' && !['active','completed'].includes(session.status)) {
         session.status = 'completed';
         updated++;
       }

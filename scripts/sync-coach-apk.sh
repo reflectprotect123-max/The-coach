@@ -16,8 +16,17 @@ for f in \
   coach-bridge.js \
   coach-cloud.js \
   coach-views.js \
+  coach-management.js \
+  coach-tools.js \
+  coach-layout.css \
+  strength-builder.js \
+  strength-builder.css \
+  strength-builder-frame.html \
+  strength-builder-frame.js \
   coach-native-bridge.js
 do
   cp "$SRC/$f" "$DEST/$f"
 done
+mkdir -p "$DEST/athlete-runtime"
+cp "$SRC"/athlete-runtime/*.js "$SRC"/athlete-runtime/*.css "$DEST/athlete-runtime/"
 echo "Coach APK www ready at $DEST"
