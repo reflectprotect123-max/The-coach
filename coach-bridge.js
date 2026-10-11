@@ -1,7 +1,8 @@
 /**
  * Coach → athlete local bridge (R10).
  * Writes published sessions + nutrition payload to shared localStorage.
- * Same-origin demo: coach.html and index.html on one device/browser.
+ * Same-origin compatibility contract for legacy athlete consumers and tests.
+ * The current athlete app lives in strengthside, not this repository's index.html.
  */
 (function (root, factory) {
   const api = factory();

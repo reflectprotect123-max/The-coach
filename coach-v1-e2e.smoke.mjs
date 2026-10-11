@@ -1,6 +1,7 @@
 /**
- * End-to-end coach V1 flow — assign → publish → bridge → athlete pull.
- * Run: node apps/coach/coach-v1-e2e.smoke.mjs
+ * Legacy contract flow — assign → publish → bridge → in-memory athlete pull.
+ * Not a current strengthside app or authenticated backend end-to-end test.
+ * Run: node coach-v1-e2e.smoke.mjs
  */
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';

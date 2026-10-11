@@ -9,7 +9,7 @@ import vm from 'node:vm';
 const dir = dirname(fileURLToPath(import.meta.url));
 const loopSrc = readFileSync(join(dir, 'coach-loop.js'), 'utf8');
 const bridgeSrc = readFileSync(join(dir, 'coach-bridge.js'), 'utf8');
-const indexHtml = readFileSync(join(dir, 'index.html'), 'utf8');
+const coachHtml = readFileSync(join(dir, 'coach.html'), 'utf8');
 
 const sandbox = { console, module: { exports: {} }, globalThis: {} };
 sandbox.globalThis = sandbox;
@@ -94,11 +94,7 @@ if (!bridged.recoverySession || bridged.type !== 'conditioning') {
   throw new Error('bridge stripped recovery block');
 }
 
-if (!indexHtml.includes('function normalizeWorkoutBlock')) {
-  throw new Error('athlete normalizeWorkoutBlock missing');
-}
-if (!indexHtml.includes('function sessionBlockKindSummary')) {
-  throw new Error('sessionBlockKindSummary missing');
-}
+if (!coachHtml.includes('function blockTypeValue')) throw new Error('coach block-type resolver missing');
+if (!coachHtml.includes('function setBlockType')) throw new Error('coach block-type editor missing');
 
 console.log('coach-block-types: ok');

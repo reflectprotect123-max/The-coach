@@ -1,5 +1,10 @@
 # Coach app audit
 
+This report records the pre-cleanup audit snapshot. The later
+[`repository cleanup`](REPOSITORY-CLEANUP.md) removed obsolete workspace assets
+and updated test wiring; it did not fix the application findings below. Suite
+counts and test-run observations in this audit refer to that earlier snapshot.
+
 ## Verdict
 
 The coach is a locally functional prototype, not a complete production coach app.

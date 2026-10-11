@@ -11,11 +11,9 @@ const loopSrc = readFileSync(join(dir, 'coach-loop.js'), 'utf8');
 const syncSrc = readFileSync(join(dir, 'coach-sync.js'), 'utf8');
 const cloudSrc = readFileSync(join(dir, 'coach-cloud.js'), 'utf8');
 const nutSrc = readFileSync(join(dir, 'coach-nutrition.js'), 'utf8');
-const strengthSyncSrc = readFileSync(join(dir, 'strength-sync.js'), 'utf8');
 const logColsSrc = readFileSync(join(dir, 'log-columns.js'), 'utf8');
 const coachHtml = readFileSync(join(dir, 'coach.html'), 'utf8');
 const viewsSrc = readFileSync(join(dir, 'coach-views.js'), 'utf8');
-const indexHtml = readFileSync(join(dir, 'index.html'), 'utf8');
 
 const sandbox = { console, module: { exports: {} }, globalThis: {} };
 sandbox.globalThis = sandbox;
@@ -181,11 +179,6 @@ if (!syncSrc.includes('athleteEmailFromState')) {
   if (b.targetWatts != null) throw new Error('empty targetWatts should clear field');
 }
 
-// strength-sync: active sessions protected from remote overwrite
-if (!strengthSyncSrc.includes("local.status === 'active'")) {
-  throw new Error('strength-sync missing active session guard');
-}
-
 // log-columns: weight_kg syncs to ex.load
 if (!logColsSrc.includes("loadCol.kind === 'weight_kg'")) {
   throw new Error('log-columns missing weight_kg legacy sync');
@@ -214,35 +207,6 @@ if (viewsSrc.match(/ctx\.persist\(\);\s*\n\s*if \(root\.CoachBridge/)) {
 // cloud pull applies scheduled_date
 if (!cloudSrc.includes('incoming.date = row.scheduled_date')) {
   throw new Error('pullForAthlete must apply scheduled_date');
-}
-
-// athlete deep fixes
-if (!indexHtml.includes('function sessionHasStrengthWork')) {
-  throw new Error('sessionHasStrengthWork missing');
-}
-if (!indexHtml.includes('if(sessionHasStrengthWork(x)){train();return}')) {
-  throw new Error('enterSessionScreen must prefer strength for hybrid sessions');
-}
-if (!indexHtml.includes("x.status!=='abandoned'")) {
-  throw new Error('coachControlsStrength must ignore abandoned prescriptions');
-}
-if (!indexHtml.includes('sessionLooksLikeConditioning(active)&&!sessionHasStrengthWork(active)')) {
-  throw new Error('nextConditioningSession must not hijack hybrid active session');
-}
-if (!indexHtml.includes('sessionHasStrengthWork(x)&&(x.tasks||[]).some(task=>(task.kind===\'strength\'')) {
-  throw new Error('completeSimpleCond must not skip strength on hybrid');
-}
-if (indexHtml.includes('function minimalUi(')) {
-  throw new Error('minimalUi toggle removed');
-}
-if (/Working maxes[\s\S]{0,320}openStrengthProgress\(\)/.test(indexHtml)) {
-  throw new Error('Settings should not duplicate Library Progress button');
-}
-if (indexHtml.includes('function showBlockHelp(')) {
-  throw new Error('showBlockHelp removed — block help is not athlete-facing');
-}
-if (!indexHtml.includes("S.tab==='library'")) {
-  throw new Error('render/go should remap legacy library tab');
 }
 
 console.log('coach-audit-fixes: ok');

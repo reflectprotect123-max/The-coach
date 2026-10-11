@@ -4,7 +4,7 @@ This is **Coach**, not TRACK and not Engine.
 
 - **GitHub:** `https://github.com/reflectprotect123-max/The-coach`
 - **Android id:** `com.hybrid.coach` (same as the Windows Electron `appId`)
-- **UI:** `coach.html` (locked Hybrid Coach home). `index.html` is the older workspace; Capacitor wraps **`coach.html`** as `www/index.html`.
+- **UI:** `coach.html` is the coach app. Root `index.html` redirects to it; Capacitor wraps **`coach.html`** as `www/index.html`.
 - **Do not** merge gym loggers into this app. Totem and WHOOP ingest come **after** the APK exists.
 
 ## Tests
@@ -72,7 +72,7 @@ the coach dashboard. Do not maintain another coach UI copy in the Brain repo.
 This separation does not finish the coach-to-athlete backend integration; see
 [`COACH-FULL-AUDIT.md`](COACH-FULL-AUDIT.md).
 
-The older local Brain dashboard mockup is preserved unchanged at
-[`reference/legacy-brain-coach/index.html`](reference/legacy-brain-coach/index.html).
-It is historical reference material, not the active app. `coach.html` and the
-current sidebar HTML deliverable are unchanged by the repository move.
+Obsolete workspace pages, the old Brain dashboard mockup and their unused
+modules have been removed from the current tree. They remain recoverable from
+Git history. See [`REPOSITORY-CLEANUP.md`](REPOSITORY-CLEANUP.md) for the exact
+removal list and why compatibility tests, runtime assets and packaging were kept.
