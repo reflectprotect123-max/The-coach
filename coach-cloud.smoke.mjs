@@ -7,10 +7,7 @@ import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
 const dir = dirname(fileURLToPath(import.meta.url));
-const root = join(dir, '../..');
-const monorepoMig = join(root, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
-const standaloneMig = join(dir, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
-const mig = existsSync(monorepoMig) ? monorepoMig : standaloneMig;
+const mig = join(dir, 'supabase/migrations/20260827_coach_publish_assigned_session.sql');
 if (!existsSync(mig)) throw new Error('missing coach publish migration');
 const sql = readFileSync(mig, 'utf8');
 for (const needle of [
@@ -28,11 +25,6 @@ if (!html.includes('Push cloud now')) throw new Error('coach.html missing Push c
 if (!html.includes('bindMyCloudIdToAthlete')) throw new Error('coach.html missing cloud link');
 if (!html.includes('Open athlete app')) throw new Error('coach.html missing athlete app link');
 if (html.includes('rx-delivery-strip')) throw new Error('coach.html must not show persistent delivery strip banner');
-
-const indexHtml = readFileSync(join(dir, 'index.html'), 'utf8');
-if (!indexHtml.includes('coach-cloud.js')) throw new Error('index.html missing coach-cloud.js');
-if (!indexHtml.includes('Coach prescriptions')) throw new Error('index.html missing coach prescriptions card');
-if (!indexHtml.includes('isCoachPrescription')) throw new Error('index.html missing isCoachPrescription');
 
 const src = readFileSync(join(dir, 'coach-cloud.js'), 'utf8');
 const sandbox = { console, module: { exports: {} }, globalThis: {}, Whoop: null };

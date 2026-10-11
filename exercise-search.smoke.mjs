@@ -9,7 +9,7 @@ import vm from 'node:vm';
 const dir = dirname(fileURLToPath(import.meta.url));
 const indexSrc = readFileSync(join(dir, 'exercise-search-index.js'), 'utf8');
 const searchSrc = readFileSync(join(dir, 'exercise-search.js'), 'utf8');
-const html = readFileSync(join(dir, 'index.html'), 'utf8');
+const html = readFileSync(join(dir, 'coach.html'), 'utf8');
 
 const sandbox = { window: {}, console };
 sandbox.window = sandbox;
@@ -60,11 +60,10 @@ for (const q of ['deadlift', 'bench', 'curl']) {
   }
 }
 
-// index.html wired
-must(html.includes('exercise-search-index.js'), 'index loads search index');
-must(html.includes('exercise-search.js'), 'index loads exercise-search.js');
-must(html.includes('pickExerciseSuggest('), 'pickExerciseSuggest present');
-must(html.includes('exExerciseId'), 'hidden exercise id field wired');
-must(!html.includes('last:') || !html.match(/exerciseSuggestHtml[\s\S]{0,400}last:/), 'suggest html must not show last weights');
+// Current coach picker wiring, not the retired athlete workspace.
+must(html.includes('exercise-search-index.js'), 'coach loads search index');
+must(html.includes('exercise-search.js'), 'coach loads exercise-search.js');
+must(html.includes('pickExerciseVariant('), 'coach exercise selection present');
+must(html.includes('coachExerciseSuggestHits('), 'coach variant search present');
 
 console.log('exercise-search.smoke: ok');

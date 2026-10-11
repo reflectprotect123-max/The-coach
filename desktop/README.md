@@ -27,25 +27,24 @@ Manual check: **Coach → Check for app updates**.
 **Permanent download:** [Coach Desktop (latest)](https://github.com/reflectprotect123-max/strengthside/releases/tag/coach-desktop-latest)
 (same rolling-release pattern as [Dogfood APK (latest)](https://github.com/reflectprotect123-max/strengthside/releases/tag/dogfood-latest)).
 
-Bump `apps/desktop/package.json` `version` before each shell release so the updater
+Bump `desktop/package.json` `version` before each shell release so the updater
 detects a new build.
 
 ## Local dev (latest coach UI before Netlify deploy)
 
 ```bash
-bash apps/desktop/start-local-coach.sh
+bash desktop/start-local-coach.sh
 ```
 
-That syncs `preview-site`, serves it on port **8765**, and opens Electron against
+That serves this repository on port **8765** and opens Electron against
 `http://127.0.0.1:8765/coach.html`.
 
 Manual equivalent:
 
 ```bash
-bash apps/mobile/sync-hybrid-html.sh
-cd apps/mobile/preview-site && python3 -m http.server 8765
+python3 -m http.server 8765 --bind 127.0.0.1
 # new terminal:
-cd apps/desktop && HYBRID_COACH_URL=http://127.0.0.1:8765/coach.html pnpm start
+cd desktop && HYBRID_COACH_URL=http://127.0.0.1:8765/coach.html pnpm start
 ```
 
 Or open `http://127.0.0.1:8765/coach.html` in Chrome — same UI, no Electron.
@@ -53,7 +52,7 @@ Or open `http://127.0.0.1:8765/coach.html` in Chrome — same UI, no Electron.
 ## Local dev (live Netlify coach)
 
 ```bash
-cd apps/desktop
+cd desktop
 pnpm install
 pnpm start
 ```
@@ -64,13 +63,13 @@ Override URL: `HYBRID_COACH_URL=https://thehybridsystem.netlify.app/coach.html p
 
 ```bash
 pnpm run dist          # local build, no publish
-pnpm run dist:publish  # build + GitHub Release (needs GH_TOKEN)
 ```
 
-Output: `apps/desktop/dist/THE-Hybrid-Coach-Setup-<version>.exe`
+Output: `desktop/dist/THE-Hybrid-Coach-Setup-<version>.exe`
 
-Or push to `main` (when `apps/desktop/**` changes) or dispatch **Build coach desktop**
-in GitHub Actions.
+This standalone repository has no desktop-release GitHub Action or
+`dist:publish` script. Uploading a build to the configured updater feed is a
+separate release operation; pushing source changes does not verify deployment.
 
 ## What this does NOT do
 
