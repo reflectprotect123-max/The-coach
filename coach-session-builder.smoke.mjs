@@ -12,8 +12,9 @@ const src = readFileSync(join(dir, 'coach-loop.js'), 'utf8');
 
 for (const needle of [
   'Coach instructions',
-  'Add a block type',
-  '+ Strength',
+  'SESSION TEMPLATE FORM',
+  'Session Preview',
+  '+ Add Block',
   'For Weight',
   'For Completion',
   'Choose exercise',
@@ -24,14 +25,12 @@ for (const needle of [
   'engine-box',
   'Effort',
   'Steady-state',
-  'Edit prescription',
-  'Target RIR',
+  'Save Prescription',
+  'aria-label="Metric 1"',
   'builderPrescriptionHtml',
   'log-columns.js',
   'removeBlk',
   'prep-textarea',
-  'Delete block',
-  'block-drag-handle',
   'coachBlockList',
   'moveBlock',
 ]) {

@@ -234,6 +234,33 @@ label{display:block;margin:0 0 6px;color:var(--muted);font-size:10px;font-weight
 .block-list{display:grid;gap:0}
 .block-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .letter-badge{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);font-weight:700;font-size:13px;color:var(--copper2);flex-shrink:0}
+.photo-session{background:#fff;color:#1c1c1c;border-radius:12px;padding:12px 16px 28px}
+.photo-session .builder-title,.photo-session h2,.photo-session label,.photo-session .photo-form-kicker,.photo-session .session-date-title{color:#1c1c1c}
+.photo-session .card,.photo-session .instructions-box{background:#fff;color:#1c1c1c;border-color:#e4e4e4}
+.photo-session .muted,.photo-session .char-count,.photo-session small{color:#6b6b6b}
+.photo-session .letter-badge{background:#111;color:#fff;border:0}
+.photo-session-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+.session-preview{position:sticky;top:12px;padding:8px 4px}
+.session-preview h2{margin:0 0 14px;font-size:16px;font-weight:700}
+.preview-block{display:grid;grid-template-columns:28px 1fr;gap:8px;margin:0 0 12px;font-size:13px}
+.preview-block span{font-weight:700}
+.preview-block b{display:block}
+.preview-block small{display:block;color:var(--muted)}
+.photo-form-kicker{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.04em}
+.photo-block{margin-top:18px;padding:8px 0 4px;border-top:1px solid var(--line)}
+.photo-block-head{display:flex;align-items:center;gap:10px}
+.photo-block-head select{max-width:220px}
+.photo-rx{margin:12px 0 8px 42px}
+.photo-rx-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font-weight:600}
+.photo-grid{display:grid;grid-template-columns:92px minmax(0,1fr) minmax(0,1fr);gap:8px 14px;align-items:center}
+.photo-sets-label{font-size:11px;font-weight:700;letter-spacing:.08em}
+.photo-session .photo-grid input,.photo-session .photo-grid select,.photo-session .photo-block-head select,.photo-session .photo-notes{width:100%;padding:8px 10px;border:1px solid #d5d5d5;border-radius:4px;background:#fff;color:#1c1c1c;font-size:14px}
+.photo-session .photo-rx-line .btn{background:#2f6fed;border-color:#2f6fed;color:#fff}
+.photo-notes{width:100%;min-height:72px;margin-top:10px}
+.photo-block-menu{position:relative}
+.photo-block-menu .kebab-menu{right:0;top:36px}
+.session-date-title{margin:0 0 8px;font-size:18px;font-weight:650}
+@media(max-width:800px){.photo-session-layout{grid-template-columns:1fr}.session-preview{position:static}}
 .block-head select{max-width:180px;min-height:36px;padding:6px 8px;font-size:12px}
 .block-head .grow{flex:1;min-width:120px}
 .block-body{padding:14px}
@@ -661,12 +688,28 @@ function go(view, extra){
 }
 function toggleCoachSidebar(open){ui.sidebarOpen=typeof open==='boolean'?open:!ui.sidebarOpen;render();if(!ui.sidebarOpen)document.getElementById('coachNavigationToggle')?.focus();}
 function openSession(templateId){
+  const from = ui.view === 'athlete' || ui.view === 'team' ? ui.view : 'library';
   closeCoachExEdit();
   ui.cellMenu = null;
+  ui.blockMenu = null;
+  ui.sessionFrom = from;
   ui.templateId = templateId;
   ui.lib = 'sessions';
   ui.exPicker = null;
   ui.view = 'session';
+  render();
+}
+function backFromSession(){
+  if (ui.sessionFrom === 'athlete') go('athlete');
+  else if (ui.sessionFrom === 'team') go('team');
+  else go('library', { lib: 'sessions' });
+}
+function publishOpenSession(){
+  const rows = (S.sessions || []).filter((s) => s.templateId === ui.templateId && s.status !== 'completed');
+  if (!rows.length) { showCoachToast('No calendar assignment for this session yet.', 'warn'); return; }
+  rows.forEach((s) => L.publishSession(s));
+  persist();
+  showCoachToast('Session published');
   render();
 }
 function openProgram(programId){
@@ -1817,72 +1860,251 @@ function condEngineHtml(b, bi){
   </div>`;
 }
 
+const PHOTO_METRICS = [
+  ['none','-'],
+  ['reps','Reps'],
+  ['reps_range','Rep Range (min-max)'],
+  ['weight_lb','Weight (lb)'],
+  ['weight_kg','Weight (kg)'],
+  ['weight_pct_wm','Weight (%)'],
+  ['weight_lwp','Weight (LWP+)'],
+  ['time_mmss','Time (min::sec)'],
+  ['time_sec','Seconds (s)'],
+  ['distance_mi','Distance (miles)'],
+  ['distance_yd','Distance (yd)'],
+  ['distance_ft','Distance (ft)'],
+  ['distance_in','Distance (inches)'],
+  ['distance_m','Distance (meters)'],
+  ['height_in','Height (inches)'],
+  ['calories','Calories (cal)'],
+  ['rpe','RPE'],
+  ['watts','Watts'],
+  ['velocity','Velocity (m/s)'],
+  ['other','Other Number'],
+];
+const PHOTO_SCORES = [
+  ['weight','For Weight'],
+  ['completion','For Completion'],
+  ['calories','Calories'],
+  ['feet','Feet'],
+  ['meters','Meters'],
+  ['miles','Miles'],
+  ['reps','Reps'],
+];
+
+function photoValuesSame(values){
+  return values.length > 0 && values.every((v) => v === values[0]);
+}
+function photoPack(values){
+  if (!values || !values.length) return '';
+  return photoValuesSame(values) ? values[0] : values.join(',');
+}
+function photoSplit(raw, n){
+  const parts = String(raw == null ? '' : raw).split(',');
+  while (parts.length < n) parts.push(parts[0] || '');
+  return parts.slice(0, n);
+}
+function photoColumns(ex){
+  const n = Math.max(1, Math.min(10, Number(ex.sets) || 3));
+  ex.sets = n;
+  let cols = Array.isArray(ex.logColumns) ? ex.logColumns.map((c) => ({
+    id: c.id || L.uid('col'),
+    kind: PHOTO_METRICS.some((m) => m[0] === c.kind) ? c.kind : 'reps',
+    values: Array.isArray(c.values) && c.values.length === n ? c.values.slice() : photoSplit(Array.isArray(c.values) ? c.values.join(',') : c.value, n),
+  })) : [];
+  if (!cols.length) {
+    const repKind = /[-–]/.test(String(ex.reps || '')) ? 'reps_range' : 'reps';
+    cols = [
+      { id: L.uid('col'), kind: repKind, values: photoSplit(ex.reps || '10', n) },
+      { id: L.uid('col'), kind: ex.load || ex.metric === 'Weight' ? 'weight_kg' : 'none', values: photoSplit(ex.load || '', n) },
+    ];
+  }
+  while (cols.length < 2) cols.push({ id: L.uid('col'), kind: 'none', values: photoSplit('', n) });
+  cols = cols.slice(0, 2);
+  cols.forEach((c) => { c.value = c.values.join(','); });
+  ex.logColumns = cols;
+  return cols;
+}
+function syncPhotoLegacy(ex){
+  const cols = ex.logColumns || [];
+  const rep = cols.find((c) => c.kind === 'reps' || c.kind === 'reps_range');
+  const load = cols.find((c) => String(c.kind).startsWith('weight_'));
+  if (rep) ex.reps = photoPack(rep.values);
+  if (load) { ex.load = photoPack(load.values); ex.metric = 'Weight'; }
+}
+function photoSummary(ex){
+  const cols = photoColumns(ex);
+  const rep = cols.find((c) => c.kind === 'reps' || c.kind === 'reps_range');
+  const bit = rep ? photoPack(rep.values) : '';
+  return bit ? `${ex.sets} x ${bit}` : `${ex.sets} sets`;
+}
+function photoMetricOptions(selected){
+  return PHOTO_METRICS.map(([key, label]) => `<option value="${key}" ${key === selected ? 'selected' : ''}>${esc(label)}</option>`).join('');
+}
+function onPhotoSets(bi, ei, raw){
+  const ex = tplBlocks()[bi].exercises[ei];
+  ex.sets = Math.max(1, Math.min(10, Number(raw) || 1));
+  photoColumns(ex);
+  syncPhotoLegacy(ex);
+  persist();
+  render();
+}
+function onPhotoKind(bi, ei, ci, kind){
+  const ex = tplBlocks()[bi].exercises[ei];
+  const cols = photoColumns(ex);
+  cols[ci].kind = kind;
+  ex.logColumns = cols;
+  syncPhotoLegacy(ex);
+  persist();
+  render();
+}
+function onPhotoCell(bi, ei, ci, ri, value){
+  const ex = tplBlocks()[bi].exercises[ei];
+  const cols = photoColumns(ex);
+  const previous = cols[ci].values[ri];
+  cols[ci].values[ri] = value;
+  for (let i = ri + 1; i < cols[ci].values.length; i++) {
+    if (cols[ci].values[i] !== previous) break;
+    cols[ci].values[i] = value;
+  }
+  cols[ci].value = cols[ci].values.join(',');
+  ex.logColumns = cols;
+  syncPhotoLegacy(ex);
+  const grid = document.querySelector(`.photo-grid[data-bi="${bi}"][data-ei="${ei}"]`);
+  if (grid) cols[ci].values.forEach((v, i) => {
+    const input = grid.querySelector(`[data-ci="${ci}"][data-ri="${i}"]`);
+    if (input && input.value !== v) input.value = v;
+  });
+  const summary = grid && grid.closest('.photo-rx')?.querySelector('.photo-rx-line span');
+  if (summary) summary.textContent = photoSummary(ex);
+  persist();
+}
+function onPhotoNotes(bi, ei, value){
+  tplBlocks()[bi].exercises[ei].coachNote = value;
+  persist();
+}
+function savePhotoPrescription(bi, ei){
+  const ex = tplBlocks()[bi].exercises[ei];
+  photoColumns(ex);
+  syncPhotoLegacy(ex);
+  ex.savedPrescription = JSON.parse(JSON.stringify({ sets: ex.sets, logColumns: ex.logColumns, reps: ex.reps, load: ex.load || '' }));
+  persist();
+  showCoachToast('Prescription saved');
+}
+function setBlockCategory(bi, category){
+  const type = category === 'Prep' ? 'text' : category === 'Conditioning' ? 'conditioning' : category === 'Recovery' ? 'recovery' : 'strength';
+  setBlockType(bi, type);
+  const b = tpl(ui.templateId).blocks[bi];
+  if (!b) return;
+  b.category = category;
+  persist();
+  render();
+}
+function toggleBlockMenu(bi, event){
+  if (event) event.stopPropagation();
+  ui.blockMenu = ui.blockMenu === bi ? null : bi;
+  render();
+}
+function sessionDateTitle(){
+  const row = (S.sessions || []).find((s) => s.templateId === ui.templateId && s.date);
+  if (!row) return '';
+  const d = new Date(row.date + 'T12:00:00');
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
 function blockExerciseHtml(b, bi){
   const kind = blockTypeValue(b);
-  if (kind === 'conditioning' || kind === 'recovery') return condEngineHtml(b, bi);
-  if (kind === 'text') {
+  if (kind !== 'strength') {
     return `<div class="field prep-field"><label>Block notes</label>
-      <textarea class="prep-textarea" rows="8" oninput="tpl(ui.templateId).blocks[${bi}].notes=this.value;persist();growTextAreas()">${esc(b.notes||'')}</textarea></div>`;
+      <textarea class="prep-textarea" rows="8" aria-label="Block notes" oninput="tpl(ui.templateId).blocks[${bi}].notes=this.value;persist();growTextAreas()">${esc(b.notes||'')}</textarea></div>`;
   }
   const exHtml = (b.exercises||[]).map((e, ei) => `<div class="exercise-card">
     <div class="row" style="align-items:flex-start"><span class="letter-badge" style="width:26px;height:26px;font-size:11px">${esc(b.letter||'?')}</span>
       <button type="button" class="exercise-pick grow" onclick="openExPicker(${bi},${ei})">${esc(e.name||'Choose exercise')}</button>
-      <button type="button" class="kebab-btn" title="Remove exercise" onclick="removeEx(${bi},${ei})">×</button></div>
-    ${coachExerciseRxHtml(bi, ei)}
+      <button type="button" class="kebab-btn" title="Remove exercise" aria-label="Remove exercise" onclick="removeEx(${bi},${ei})">×</button></div>
+    ${photoRxHtml(bi, ei)}
   </div>`).join('');
   return `${exHtml}<button type="button" class="btn small" style="margin-top:10px" onclick="addEx(${bi})">Add exercise</button>`;
+}
+
+function photoRxHtml(bi, ei){
+  const ex = tplBlocks()[bi].exercises[ei];
+  const cols = photoColumns(ex);
+  const n = ex.sets;
+  const setOpts = Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}" ${n === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('');
+  let rows = '';
+  for (let i = 0; i < n; i++) {
+    const setsCell = i === 0
+      ? `<select aria-label="Sets" onchange="onPhotoSets(${bi},${ei},this.value)">${setOpts}</select>`
+      : '<span></span>';
+    const cells = cols.map((c, ci) => {
+      const label = `${PHOTO_METRICS.find((m) => m[0] === c.kind)?.[1] || c.kind} set ${i + 1}`;
+      return `<input data-ci="${ci}" data-ri="${i}" aria-label="${esc(label)}" value="${esc(c.values[i] || '')}" ${c.kind === 'none' ? 'disabled' : ''} oninput="onPhotoCell(${bi},${ei},${ci},${i},this.value)">`;
+    }).join('');
+    rows += setsCell + cells;
+  }
+  const heads = `<select aria-label="Metric 1" onchange="onPhotoKind(${bi},${ei},0,this.value)">${photoMetricOptions(cols[0].kind)}</select><select aria-label="Metric 2" onchange="onPhotoKind(${bi},${ei},1,this.value)">${photoMetricOptions(cols[1].kind)}</select>`;
+  return `<div class="photo-rx">
+    <div class="photo-rx-line"><span>${esc(photoSummary(ex))}</span><button type="button" class="btn small" onclick="savePhotoPrescription(${bi},${ei})">Save Prescription</button></div>
+    <div class="photo-grid" data-bi="${bi}" data-ei="${ei}"><span class="photo-sets-label">SETS</span>${heads}${rows}</div>
+    <textarea class="photo-notes" aria-label="Exercise notes" placeholder="Notes" oninput="onPhotoNotes(${bi},${ei},this.value)">${esc(ex.coachNote || '')}</textarea>
+  </div>`;
+}
+
+function sessionPreviewHtml(t){
+  const items = (t.blocks || []).map((b) => {
+    const lines = (b.exercises || []).map((e) => `<b>${esc(e.name || 'Exercise')}</b><small>${esc(photoSummary(e))}</small>`).join('') || `<b>${esc(b.heading || b.category || 'Block')}</b>`;
+    return `<div class="preview-block"><span>${esc(b.letter || '')}</span><div>${lines}</div></div>`;
+  }).join('');
+  return `<aside class="session-preview" aria-label="Session Preview"><h2>Session Preview</h2>${items || '<p class="muted">No blocks yet</p>'}</aside>`;
 }
 
 function sessionHtml(){
   const t = tpl(ui.templateId);
   if (!t) return libraryHtml();
   ui.lib = 'sessions';
+  const fromCalendar = ui.sessionFrom === 'athlete' || ui.sessionFrom === 'team';
   const blocks = tplBlocks().map((b, i) => {
-    const kind = blockTypeValue(b);
-    const blocksRef = tpl(ui.templateId).blocks;
-    const isPartner = isSupersetPartnerBlock(blocksRef, i);
-    const scoring = `<select title="How the athlete logs this strength block" onchange="tpl(ui.templateId).blocks[${i}].scoring=this.value;persist()"><option value="weight" ${b.scoring==='weight'?'selected':''}>Track load</option><option value="completion" ${b.scoring==='completion'?'selected':''}>Completion only</option></select>`;
-    const superset = kind === 'strength' && !isPartner
-      ? `<label class="row" style="gap:6px;margin:0;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500">
-          <input type="checkbox" style="width:auto" ${b.superset?'checked':''} onchange="toggleSuperset(${i},this.checked)"> Superset</label>`
-      : (isPartner ? `<span class="pill" style="font-size:10px">Superset pair</span>` : '');
-    return `<section class="block-card block-${kind}" data-block-index="${i}">
-      <div class="block-head">
-        ${isPartner
-          ? '<span class="block-drag-spacer" aria-hidden="true"></span>'
-          : `<button type="button" class="block-drag-handle" draggable="true" data-block-index="${i}" aria-label="Drag to reorder block" title="Drag to reorder">⋮⋮</button>`}
-        <span class="letter-badge">${esc(b.letter||'?')}</span>
-        ${blockTypeSelectHtml(i, b)}
-        ${kind==='strength'?scoring:''}
-        ${superset}
-        <button type="button" class="kebab-btn danger" title="Delete block" aria-label="Delete block" onclick="removeBlk(${i})">Delete</button>
+    const category = L.BLOCK_CATEGORIES.includes(b.category) ? b.category : 'Strength/Power';
+    const catOpts = L.BLOCK_CATEGORIES.map((c) => `<option value="${esc(c)}" ${c === category ? 'selected' : ''}>${esc(c)}</option>`).join('');
+    const score = PHOTO_SCORES.some((s) => s[0] === b.scoring) ? b.scoring : 'weight';
+    const scoreOpts = PHOTO_SCORES.map(([key, label]) => `<option value="${key}" ${key === score ? 'selected' : ''}>${esc(label)}</option>`).join('');
+    const menu = ui.blockMenu === i
+      ? `<div class="kebab-menu" role="menu"><button type="button" onclick="toggleSuperset(${i},${!b.superset})">${b.superset ? 'Unlink superset' : 'Superset with next block'}</button><button type="button" onclick="removeBlk(${i})">Delete</button></div>`
+      : '';
+    return `<section class="block-card photo-block block-${blockTypeValue(b)}" data-block-index="${i}">
+      <div class="photo-block-head">
+        <span class="letter-badge">${esc(b.letter || '?')}</span>
+        <select aria-label="Block category" onchange="setBlockCategory(${i}, this.value)">${catOpts}</select>
+        <select aria-label="Scoring" onchange="tpl(ui.templateId).blocks[${i}].scoring=this.value;persist()">${scoreOpts}</select>
+        <span class="grow"></span>
+        <span class="photo-block-menu"><button type="button" class="kebab-btn" aria-label="Block menu" onclick="toggleBlockMenu(${i}, event)">⋮</button>${menu}</span>
       </div>
-      <div class="block-body">
-        <div class="field"><label>Block title</label><input value="${esc(b.heading||'')}" oninput="tpl(ui.templateId).blocks[${i}].heading=this.value;persist()"></div>
-        ${kind==='strength'?`<div class="field"><label>Block notes</label><textarea oninput="tpl(ui.templateId).blocks[${i}].notes=this.value;persist()">${esc(b.notes||'')}</textarea></div>`:''}
-        ${blockExerciseHtml(b, i)}
-      </div>
+      <div class="block-body">${blockExerciseHtml(b, i)}</div>
     </section>`;
   }).join('');
-  const instrLen = (t.coachInstructions||'').length;
-  return `<div class="fade-in"><button type="button" class="btn ghost small page-back" onclick="go('library',{lib:'sessions'})">← Back to sessions</button>
-    <div class="builder-top" style="margin-top:12px">
-      <input class="builder-title" value="${esc(t.name)}" aria-label="Session title" oninput="tpl(ui.templateId).name=this.value;persist()">
-      <div class="builder-actions"><button class="btn primary small" onclick="openStrengthSession(ui.templateId)">${t.athleteTemplate?'Continue strength draft':'Strength builder'}</button><span class="pill">Saved locally</span></div>
-    </div>
-    <div class="card instructions-box">
-      <label>Coach instructions</label>
-      <span class="char-count">${instrLen}/10000</span>
-      <textarea maxlength="10000" placeholder="Use this area to help the athlete understand goals for today's session." oninput="tpl(ui.templateId).coachInstructions=this.value;persist();var c=this.closest('.instructions-box')&&this.closest('.instructions-box').querySelector('.char-count');if(c)c.textContent=this.value.length+'/10000'">${esc(t.coachInstructions||'')}</textarea>
-    </div>
-    <div class="block-list" id="coachBlockList">${blocks}</div>
-    <div class="add-block-bar stack">
-      <p class="muted" style="margin:0">Add a block type</p>
-      <div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap">
-        <button type="button" class="btn primary small" onclick="addBlk('strength')">+ Strength</button>
-        <button type="button" class="btn small" onclick="addBlk('conditioning')">+ Conditioning</button>
-        <button type="button" class="btn small" onclick="addBlk('recovery')">+ Recovery</button>
-        <button type="button" class="btn small" onclick="addBlk('text')">+ Prep notes</button>
+  const instrLen = (t.coachInstructions || '').length;
+  const backLabel = fromCalendar ? 'Back to Calendar' : 'Back to Library';
+  const dateTitle = fromCalendar ? sessionDateTitle() : '';
+  return `<div class="fade-in photo-session">
+    <div class="photo-session-layout">
+      ${sessionPreviewHtml(t)}
+      <div>
+        <button type="button" class="btn ghost small page-back" onclick="backFromSession()">${esc(backLabel)}</button>
+        <p class="photo-form-kicker">SESSION TEMPLATE FORM</p>
+        ${dateTitle ? `<p class="session-date-title">${esc(dateTitle)}</p>` : ''}
+        <div class="builder-top">
+          <input class="builder-title" value="${esc(t.name)}" aria-label="Session title" oninput="tpl(ui.templateId).name=this.value;persist()">
+          ${fromCalendar ? '<button type="button" class="btn primary small" onclick="publishOpenSession()">Publish Session</button>' : ''}
+        </div>
+        <div class="card instructions-box">
+          <label>Coach instructions</label>
+          <span class="char-count">${instrLen}/10000</span>
+          <textarea maxlength="10000" placeholder="Use this area to help the athlete understand goals for today's session." oninput="tpl(ui.templateId).coachInstructions=this.value;persist();var c=this.closest('.instructions-box')&&this.closest('.instructions-box').querySelector('.char-count');if(c)c.textContent=this.value.length+'/10000'">${esc(t.coachInstructions||'')}</textarea>
+        </div>
+        <div class="block-list" id="coachBlockList">${blocks}</div>
+        <div class="add-block-bar"><button type="button" class="btn primary" onclick="addBlk('strength')">+ Add Block</button></div>
       </div>
     </div>
     ${exercisePickerHtml()}</div>`;
@@ -2016,11 +2238,12 @@ document.addEventListener('click', function coachKebabDismiss(ev) {
   if(ui.homeCalendarOpen && !ev.target?.closest?.('.home-date-popover,[aria-label="Choose date"]')){
     ui.homeCalendarOpen=false;document.querySelector('.home-date-popover')?.remove();
   }
-  if (!ui.cellMenu && !ui.chipMenu) return;
+  if (!ui.cellMenu && !ui.chipMenu && ui.blockMenu == null) return;
   if (ev.target && ev.target.closest && ev.target.closest('.kebab-menu, .kebab-btn')) return;
   let changed = false;
   if (ui.cellMenu) { ui.cellMenu = null; changed = true; }
   if (ui.chipMenu) { ui.chipMenu = null; changed = true; }
+  if (ui.blockMenu != null) { ui.blockMenu = null; changed = true; }
   if (changed) render();
 });
 document.addEventListener('keydown',function coachReviewEscape(ev){
